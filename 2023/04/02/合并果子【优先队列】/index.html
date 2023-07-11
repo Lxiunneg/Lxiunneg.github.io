@@ -22,12 +22,12 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="[NOIP2004 提高组] 合并果子 &#x2F; [USACO06NOV] Fence Repair G题目地址：合并果子">
+  <meta name="description" content="[NOIP2004 提高组] 合并果子 &#x2F; [USACO06NOV] Fence Repair G 题目地址：合并果子">
 <meta property="og:type" content="article">
 <meta property="og:title" content="合并果子【优先队列】">
 <meta property="og:url" content="http://example.com/2023/04/02/%E5%90%88%E5%B9%B6%E6%9E%9C%E5%AD%90%E3%80%90%E4%BC%98%E5%85%88%E9%98%9F%E5%88%97%E3%80%91/index.html">
 <meta property="og:site_name" content="修能的妙木山修行">
-<meta property="og:description" content="[NOIP2004 提高组] 合并果子 &#x2F; [USACO06NOV] Fence Repair G题目地址：合并果子">
+<meta property="og:description" content="[NOIP2004 提高组] 合并果子 &#x2F; [USACO06NOV] Fence Repair G 题目地址：合并果子">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-04-02T14:30:11.000Z">
 <meta property="article:modified_time" content="2023-04-02T14:46:54.000Z">
@@ -257,22 +257,51 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="NOIP2004-提高组-合并果子-USACO06NOV-Fence-Repair-G"><a href="#NOIP2004-提高组-合并果子-USACO06NOV-Fence-Repair-G" class="headerlink" title="[NOIP2004 提高组] 合并果子 / [USACO06NOV] Fence Repair G"></a>[NOIP2004 提高组] 合并果子 / [USACO06NOV] Fence Repair G</h1><p>题目地址：<a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P1090">合并果子</a><br><span id="more"></span></p>
-<h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>在一个果园里，多多已经将所有的果子打了下来，而且按果子的不同种类分成了不同的堆。多多决定把所有的果子合成一堆。</p>
-<p>每一次合并，多多可以把两堆果子合并到一起，消耗的体力等于两堆果子的重量之和。可以看出，所有的果子经过 <code>n-1</code> 次合并之后， 就只剩下一堆了。多多在合并果子时总共消耗的体力等于每次合并所耗体力之和。</p>
-<p>因为还要花大力气把这些果子搬回家，所以多多在合并果子时要尽可能地节省体力。假定每个果子重量都为 <code>1</code> ，并且已知果子的种类 数和每种果子的数目，你的任务是设计出合并的次序方案，使多多耗费的体力最少，并输出这个最小的体力耗费值。</p>
-<p>例如有 <code>3</code> 种果子，数目依次为 <code>1</code> ， <code>2</code> ， <code>9</code> 。可以先将 <code>1</code> 、 <code>2</code> 堆合并，新堆数目为 <code>3</code> ，耗费体力为 <code>3</code> 。接着，将新堆与原先的第三堆合并，又得到新的堆，数目为 <code>12</code> ，耗费体力为 <code>12</code> 。所以多多总共耗费体力 <code>=3+12=15</code> 。可以证明 <code>15</code> 为最小的体力耗费值。</p>
-<h2 id="输入格式"><a href="#输入格式" class="headerlink" title="输入格式"></a>输入格式</h2><p>共两行。<br>第一行是一个整数 <code>n(1 &lt; n &lt; 10000)</code> ，表示果子的种类数。  </p>
-<p>第二行包含 <code>n</code> 个整数，用空格分隔，第 <code>i</code> 个整数 <code>a_i(1&lt; a_i &lt; 20000)</code> 是第 <code>i</code> 种果子的数目。</p>
-<h2 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式"></a>输出格式</h2><p>一个整数，也就是最小的体力耗费值。输入数据保证这个值小于 <code>2^31</code> 。</p>
-<h2 id="样例-1"><a href="#样例-1" class="headerlink" title="样例 #1"></a>样例 #1</h2><h3 id="样例输入-1"><a href="#样例输入-1" class="headerlink" title="样例输入 #1"></a>样例输入 #1</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">3 </span><br><span class="line">1 2 9</span><br></pre></td></tr></table></figure>
-<h3 id="样例输出-1"><a href="#样例输出-1" class="headerlink" title="样例输出 #1"></a>样例输出 #1</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">15</span><br></pre></td></tr></table></figure>
-<h2 id="提示"><a href="#提示" class="headerlink" title="提示"></a>提示</h2><p>对于 <code>30%</code> 的数据，保证有 <code>n &lt; 1000</code>：</p>
+        <h1 id="noip2004-提高组-合并果子-usaco06nov-fence-repair-g">[NOIP2004
+提高组] 合并果子 / [USACO06NOV] Fence Repair G</h1>
+<p>题目地址：<a
+target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P1090">合并果子</a> <span id="more"></span>
+## 题目描述</p>
+<p>在一个果园里，多多已经将所有的果子打了下来，而且按果子的不同种类分成了不同的堆。多多决定把所有的果子合成一堆。</p>
+<p>每一次合并，多多可以把两堆果子合并到一起，消耗的体力等于两堆果子的重量之和。可以看出，所有的果子经过
+<code>n-1</code> 次合并之后，
+就只剩下一堆了。多多在合并果子时总共消耗的体力等于每次合并所耗体力之和。</p>
+<p>因为还要花大力气把这些果子搬回家，所以多多在合并果子时要尽可能地节省体力。假定每个果子重量都为
+<code>1</code> ，并且已知果子的种类
+数和每种果子的数目，你的任务是设计出合并的次序方案，使多多耗费的体力最少，并输出这个最小的体力耗费值。</p>
+<p>例如有 <code>3</code> 种果子，数目依次为 <code>1</code> ，
+<code>2</code> ， <code>9</code> 。可以先将 <code>1</code> 、
+<code>2</code> 堆合并，新堆数目为 <code>3</code> ，耗费体力为
+<code>3</code> 。接着，将新堆与原先的第三堆合并，又得到新的堆，数目为
+<code>12</code> ，耗费体力为 <code>12</code> 。所以多多总共耗费体力
+<code>=3+12=15</code> 。可以证明 <code>15</code>
+为最小的体力耗费值。</p>
+<h2 id="输入格式">输入格式</h2>
+<p>共两行。<br />
+第一行是一个整数 <code>n(1 &lt; n &lt; 10000)</code>
+，表示果子的种类数。</p>
+<p>第二行包含 <code>n</code> 个整数，用空格分隔，第 <code>i</code>
+个整数 <code>a_i(1&lt; a_i &lt; 20000)</code> 是第 <code>i</code>
+种果子的数目。</p>
+<h2 id="输出格式">输出格式</h2>
+<p>一个整数，也就是最小的体力耗费值。输入数据保证这个值小于
+<code>2^31</code> 。</p>
+<h2 id="样例-1">样例 #1</h2>
+<h3 id="样例输入-1">样例输入 #1</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">3 </span><br><span class="line">1 2 9</span><br></pre></td></tr></table></figure>
+<h3 id="样例输出-1">样例输出 #1</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">15</span><br></pre></td></tr></table></figure>
+<h2 id="提示">提示</h2>
+<p>对于 <code>30%</code> 的数据，保证有 <code>n &lt; 1000</code>：</p>
 <p>对于 <code>50%</code> 的数据，保证有 <code>n &lt; 5000</code>；</p>
 <p>对于全部的数据，保证有 <code>n &lt; 10000</code>。</p>
-<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>就是对数据结构的理解，依题意得：每次选最小的两个合并成一个新的果子，再把新的果子放进篮子里，由此往复。如果用数组的话每次新的果子入数组都要再次排序<code>！！TLE警告！！</code>。<br>其实<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_41687938/article/details/117827166?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522168042817616800225528537%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&amp;request_id=168042817616800225528537&amp;biz_id=0&amp;utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_positive~default-1-117827166-null-null.142^v80^insert_down38,201^v4^add_ask,239^v2^insert_chatgpt&amp;utm_term=priority_queue&amp;spm=1018.2226.3001.4187">优先队列(先偷个懒)</a><code>priority_queue</code>就是这样一个可以自动排序的数据结构。数据默认按照升序排列，每次取出队前的两个元素合并成新元素之后入队，直至队中只剩一个元素。</p>
-<p>AC代码：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;queue&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line">priority_queue&lt;<span class="type">int</span>,vector&lt;<span class="type">int</span>&gt;,greater&lt;<span class="type">int</span>&gt; &gt; q;<span class="comment">//最小堆，优先队列</span></span><br><span class="line"><span class="type">long</span> <span class="type">long</span> ans = <span class="number">0</span>;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="type">int</span> n,temp;</span><br><span class="line">    cin &gt;&gt; n;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">        cin &gt;&gt; temp;</span><br><span class="line">        q.<span class="built_in">push</span>(temp);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span>(q.<span class="built_in">size</span>() &gt;= <span class="number">2</span>)&#123;</span><br><span class="line">        <span class="type">int</span> a = q.<span class="built_in">top</span>();q.<span class="built_in">pop</span>();</span><br><span class="line">        <span class="type">int</span> b = q.<span class="built_in">top</span>();q.<span class="built_in">pop</span>();</span><br><span class="line">        ans += a+b;</span><br><span class="line">        q.<span class="built_in">push</span>(a+b);</span><br><span class="line">    &#125;</span><br><span class="line">    cout &lt;&lt; ans;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h2 id="思考和感受"><a href="#思考和感受" class="headerlink" title="思考和感受"></a>思考和感受</h2><p>不知道这个数据结构之前，我就是那个每次都排序的人。</p>
+<h2 id="分析">分析</h2>
+<p>就是对数据结构的理解，依题意得：每次选最小的两个合并成一个新的果子，再把新的果子放进篮子里，由此往复。如果用数组的话每次新的果子入数组都要再次排序<code>！！TLE警告！！</code>。<br />
+其实<a
+target="_blank" rel="noopener" href="https://blog.csdn.net/qq_41687938/article/details/117827166?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522168042817616800225528537%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&amp;request_id=168042817616800225528537&amp;biz_id=0&amp;utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_positive~default-1-117827166-null-null.142%5Ev80%5Einsert_down38,201%5Ev4%5Eadd_ask,239%5Ev2%5Einsert_chatgpt&amp;utm_term=priority_queue&amp;spm=1018.2226.3001.4187">优先队列(先偷个懒)</a><code>priority_queue</code>就是这样一个可以自动排序的数据结构。数据默认按照升序排列，每次取出队前的两个元素合并成新元素之后入队，直至队中只剩一个元素。</p>
+<p>AC代码： <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;queue&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line">priority_queue&lt;<span class="type">int</span>,vector&lt;<span class="type">int</span>&gt;,greater&lt;<span class="type">int</span>&gt; &gt; q;<span class="comment">//最小堆，优先队列</span></span><br><span class="line"><span class="type">long</span> <span class="type">long</span> ans = <span class="number">0</span>;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="type">int</span> n,temp;</span><br><span class="line">    cin &gt;&gt; n;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">        cin &gt;&gt; temp;</span><br><span class="line">        q.<span class="built_in">push</span>(temp);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span>(q.<span class="built_in">size</span>() &gt;= <span class="number">2</span>)&#123;</span><br><span class="line">        <span class="type">int</span> a = q.<span class="built_in">top</span>();q.<span class="built_in">pop</span>();</span><br><span class="line">        <span class="type">int</span> b = q.<span class="built_in">top</span>();q.<span class="built_in">pop</span>();</span><br><span class="line">        ans += a+b;</span><br><span class="line">        q.<span class="built_in">push</span>(a+b);</span><br><span class="line">    &#125;</span><br><span class="line">    cout &lt;&lt; ans;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="思考和感受">思考和感受</h2>
+<p>不知道这个数据结构之前，我就是那个每次都排序的人。</p>
 
     </div>
 
@@ -368,7 +397,8 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#NOIP2004-%E6%8F%90%E9%AB%98%E7%BB%84-%E5%90%88%E5%B9%B6%E6%9E%9C%E5%AD%90-USACO06NOV-Fence-Repair-G"><span class="nav-number">1.</span> <span class="nav-text">[NOIP2004 提高组] 合并果子 &#x2F; [USACO06NOV] Fence Repair G</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0"><span class="nav-number">1.1.</span> <span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BE%93%E5%85%A5%E6%A0%BC%E5%BC%8F"><span class="nav-number">1.2.</span> <span class="nav-text">输入格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BE%93%E5%87%BA%E6%A0%BC%E5%BC%8F"><span class="nav-number">1.3.</span> <span class="nav-text">输出格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%B7%E4%BE%8B-1"><span class="nav-number">1.4.</span> <span class="nav-text">样例 #1</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B7%E4%BE%8B%E8%BE%93%E5%85%A5-1"><span class="nav-number">1.4.1.</span> <span class="nav-text">样例输入 #1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B7%E4%BE%8B%E8%BE%93%E5%87%BA-1"><span class="nav-number">1.4.2.</span> <span class="nav-text">样例输出 #1</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8F%90%E7%A4%BA"><span class="nav-number">1.5.</span> <span class="nav-text">提示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E6%9E%90"><span class="nav-number">1.6.</span> <span class="nav-text">分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%80%83%E5%92%8C%E6%84%9F%E5%8F%97"><span class="nav-number">1.7.</span> <span class="nav-text">思考和感受</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#noip2004-%E6%8F%90%E9%AB%98%E7%BB%84-%E5%90%88%E5%B9%B6%E6%9E%9C%E5%AD%90-usaco06nov-fence-repair-g"><span class="nav-number">1.</span> <span class="nav-text">[NOIP2004
+提高组] 合并果子 &#x2F; [USACO06NOV] Fence Repair G</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BE%93%E5%85%A5%E6%A0%BC%E5%BC%8F"><span class="nav-number">1.1.</span> <span class="nav-text">输入格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BE%93%E5%87%BA%E6%A0%BC%E5%BC%8F"><span class="nav-number">1.2.</span> <span class="nav-text">输出格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%B7%E4%BE%8B-1"><span class="nav-number">1.3.</span> <span class="nav-text">样例 #1</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B7%E4%BE%8B%E8%BE%93%E5%85%A5-1"><span class="nav-number">1.3.1.</span> <span class="nav-text">样例输入 #1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B7%E4%BE%8B%E8%BE%93%E5%87%BA-1"><span class="nav-number">1.3.2.</span> <span class="nav-text">样例输出 #1</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8F%90%E7%A4%BA"><span class="nav-number">1.4.</span> <span class="nav-text">提示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E6%9E%90"><span class="nav-number">1.5.</span> <span class="nav-text">分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%80%83%E5%92%8C%E6%84%9F%E5%8F%97"><span class="nav-number">1.6.</span> <span class="nav-text">思考和感受</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -384,20 +414,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-count">19</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-count">16</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -449,13 +479,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">13k</span>
+    <span title="站点总字数">17k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">47 分钟</span>
+    <span title="站点阅读时长">1:01</span>
 </div>
 
 <!-- <br /> -->
