@@ -1258,7 +1258,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #9d9a1f;
+  background: #36ffff;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -2586,4 +2586,13 @@ body {
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: 50% 50%;
+}
+@media only screen and (max-width: 1000px) {
+  body {
+    background: url("/images/IMG_0515.JPG");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+  }
 }
