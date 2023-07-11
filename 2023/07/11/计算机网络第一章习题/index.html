@@ -5,21 +5,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
 <meta name="generator" content="Hexo 6.3.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/China-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/China-16x16.png">
   <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
 <link rel="stylesheet" href="/css/main.css">
 
-
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Courier New:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
 <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
   <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
   <script src="/lib/pace/pace.min.js"></script>
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="R1. “主机”和“端系统”之间有什么不同？列举几种不同类型的端系统。Web服务器是一种端系统吗？">
@@ -552,7 +551,10 @@ Trudy可以进行嗅探分组，得到传输分组的副本，还可以进行IP�
     <a href="/2023/07/08/urllib%E7%9A%84%E4%BD%BF%E7%94%A8/" rel="prev" title="urllib的使用【爬虫】">
       <i class="fa fa-chevron-left"></i> urllib的使用【爬虫】
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2023/07/11/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E3%80%90%E7%88%AC%E8%99%AB%E3%80%91/" rel="next" title="正则表达式 【爬虫】">
+      正则表达式 【爬虫】 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -626,7 +628,7 @@ Trudy可以进行嗅探分组，得到传输分组的副本，还可以进行IP�
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-count">12</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -639,7 +641,7 @@ Trudy可以进行嗅探分组，得到传输分组的副本，还可以进行IP�
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-count">13</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -648,7 +650,7 @@ Trudy可以进行嗅探分组，得到传输分组的副本，还可以进行IP�
 
   <div class="links-of-blogroll motion-element">
     <div class="links-of-blogroll-title"><i class="link fa-fw"></i>
-      我的刷题网站
+      查询网站
     </div>
     <ul class="links-of-blogroll-list">
         <li class="links-of-blogroll-item">
@@ -656,6 +658,15 @@ Trudy可以进行嗅探分组，得到传输分组的副本，还可以进行IP�
         </li>
         <li class="links-of-blogroll-item">
           <a href="https://www.lanqiao.cn/problems/?first_category_id=1&sort=students_count" title="https:&#x2F;&#x2F;www.lanqiao.cn&#x2F;problems&#x2F;?first_category_id&#x3D;1&amp;sort&#x3D;students_count" rel="noopener" target="_blank">蓝桥杯题库</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.runoob.com/" title="https:&#x2F;&#x2F;www.runoob.com&#x2F;" rel="noopener" target="_blank">菜鸟教程</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://axutongxue.gitee.io/" title="https:&#x2F;&#x2F;axutongxue.gitee.io&#x2F;" rel="noopener" target="_blank">阿虚同学的储物间</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://llhlf.com/" title="https:&#x2F;&#x2F;llhlf.com&#x2F;" rel="noopener" target="_blank">Libgee</a>
         </li>
     </ul>
   </div>
@@ -675,8 +686,6 @@ Trudy可以进行嗅探分组，得到传输分组的副本，还可以进行IP�
         
 
         
-  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">null </a>
-  </div>
 
 <div class="copyright">
   
@@ -691,13 +700,13 @@ Trudy可以进行嗅探分组，得到传输分组的副本，还可以进行IP�
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">12k</span>
+    <span title="站点总字数">14k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">42 分钟</span>
+    <span title="站点阅读时长">49 分钟</span>
 </div>
 
 <!-- <br /> -->
