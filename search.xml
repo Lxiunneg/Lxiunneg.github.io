@@ -13,6 +13,12 @@
       </tags>
   </entry>
   <entry>
+    <title>test</title>
+    <url>/2023/07/11/test/</url>
+    <content><![CDATA[<p>dfdfdsf</p>
+]]></content>
+  </entry>
+  <entry>
     <title>关于如何替换Hexo背景的操作指南</title>
     <url>/2023/07/11/%E5%85%B3%E4%BA%8E%E5%A6%82%E4%BD%95%E6%9B%BF%E6%8D%A2Hexo%E8%83%8C%E6%99%AF%E7%9A%84%E6%93%8D%E4%BD%9C%E6%8C%87%E5%8D%97/</url>
     <content><![CDATA[<p>根据设备类型显示不同的背景图片。</p>
