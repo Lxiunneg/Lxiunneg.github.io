@@ -219,20 +219,6 @@
   </url>
   
   <url>
-    <loc>http://helloxiunneg.com.cn/tags/%E7%AB%99%E7%82%B9%E5%BB%BA%E8%AE%BE/</loc>
-    <lastmod>2023-07-12</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://helloxiunneg.com.cn/tags/%E7%AB%99%E7%82%B9%E7%BE%8E%E5%8C%96/</loc>
-    <lastmod>2023-07-12</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>http://helloxiunneg.com.cn/tags/%E9%80%92%E5%BD%92/</loc>
     <lastmod>2023-07-12</lastmod>
     <changefreq>weekly</changefreq>
@@ -241,6 +227,13 @@
   
   <url>
     <loc>http://helloxiunneg.com.cn/tags/%E6%95%B0%E5%AD%A6/</loc>
+    <lastmod>2023-07-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://helloxiunneg.com.cn/tags/%E7%AB%99%E7%82%B9%E5%BB%BA%E8%AE%BE/</loc>
     <lastmod>2023-07-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -262,6 +255,13 @@
   
   <url>
     <loc>http://helloxiunneg.com.cn/tags/%E6%A8%A1%E6%9D%BF%E9%A2%98/</loc>
+    <lastmod>2023-07-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://helloxiunneg.com.cn/tags/%E7%AB%99%E7%82%B9%E7%BE%8E%E5%8C%96/</loc>
     <lastmod>2023-07-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -333,14 +333,14 @@
   </url>
   
   <url>
-    <loc>http://helloxiunneg.com.cn/categories/Python3%E7%88%AC%E8%99%AB%E5%9F%BA%E7%A1%80/%E7%88%AC%E8%99%AB%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</loc>
+    <loc>http://helloxiunneg.com.cn/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%AD%A6%E4%B9%A0/</loc>
     <lastmod>2023-07-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://helloxiunneg.com.cn/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%AD%A6%E4%B9%A0/</loc>
+    <loc>http://helloxiunneg.com.cn/categories/Python3%E7%88%AC%E8%99%AB%E5%9F%BA%E7%A1%80/%E7%88%AC%E8%99%AB%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</loc>
     <lastmod>2023-07-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
