@@ -190,8 +190,8 @@ href="https://www.python-httpx.org/advanced/">官方文档</a>。</p>
         <category>爬虫基础知识</category>
       </categories>
       <tags>
-        <tag>httpx</tag>
         <tag>爬虫</tag>
+        <tag>httpx</tag>
       </tags>
   </entry>
   <entry>
@@ -798,8 +798,8 @@ password)对象或者传递元组对象 <figure class="highlight py"><table><tr>
         <category>爬虫基础知识</category>
       </categories>
       <tags>
-        <tag>爬虫</tag>
         <tag>urllib库</tag>
+        <tag>爬虫</tag>
       </tags>
   </entry>
   <entry>
