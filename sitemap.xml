@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://helloxiunneg.com.cn/2023/07/12/%E5%9F%BA%E7%A1%80%E7%88%AC%E8%99%AB%E5%AE%9E%E6%88%98%E3%80%90%E7%88%AC%E8%99%AB%E3%80%91/</loc>
+    
+    <lastmod>2023-07-12</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://helloxiunneg.com.cn/2023/07/11/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E3%80%90%E7%88%AC%E8%99%AB%E3%80%91/</loc>
     
     <lastmod>2023-07-12</lastmod>
@@ -259,6 +268,13 @@
   </url>
   
   <url>
+    <loc>http://helloxiunneg.com.cn/tags/%E7%88%AC%E8%99%AB%E5%AE%9E%E6%88%98/</loc>
+    <lastmod>2023-07-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>http://helloxiunneg.com.cn/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</loc>
     <lastmod>2023-07-12</lastmod>
     <changefreq>weekly</changefreq>
@@ -325,6 +341,13 @@
   
   <url>
     <loc>http://helloxiunneg.com.cn/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%AD%A6%E4%B9%A0/</loc>
+    <lastmod>2023-07-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://helloxiunneg.com.cn/categories/Python3%E7%88%AC%E8%99%AB%E5%9F%BA%E7%A1%80/%E7%88%AC%E8%99%AB%E5%AE%9E%E6%88%98%E6%A1%88%E4%BE%8B/</loc>
     <lastmod>2023-07-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
