@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/Cutian.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/Cutian.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/Cutian.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="baidu-site-verification" content="codeva-pW1EhZvLGz" />>
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Trebuchet MS:300,300italic,400,400italic,700,700italic|NSimSun:300,300italic,400,400italic,700,700italic|FangSong:300,300italic,400,400italic,700,700italic|Courier New:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-mac-osx.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.helloxiuenng.com.cn","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="MySQL 的存储 关系型数据库是基于关系模型的数据库，关系模型是通过二维表来保存的，所以关系型数据库中的数据的存储方式就是行列组成的表，每一列代表一个字段，每一行代表一个记录。 Python关于操作MySQL的库是PyMySQL。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python中MySQL的使用【爬虫】">
+<meta property="og:url" content="https://www.helloxiuenng.com.cn/2023/07/17/Python%E4%B8%ADMySQL%E7%9A%84%E4%BD%BF%E7%94%A8%E3%80%90%E7%88%AC%E8%99%AB%E3%80%91/index.html">
+<meta property="og:site_name" content="修能的博客">
+<meta property="og:description" content="MySQL 的存储 关系型数据库是基于关系模型的数据库，关系模型是通过二维表来保存的，所以关系型数据库中的数据的存储方式就是行列组成的表，每一列代表一个字段，每一行代表一个记录。 Python关于操作MySQL的库是PyMySQL。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img.nickyam.com/file/d9d709156bb70d1a41b30.png">
+<meta property="article:published_time" content="2023-07-17T02:04:33.000Z">
+<meta property="article:modified_time" content="2023-07-17T11:05:38.316Z">
+<meta property="article:author" content="修能">
+<meta property="article:tag" content="爬虫">
+<meta property="article:tag" content="Python高级编程">
+<meta property="article:tag" content="数据库">
+<meta property="article:tag" content="MySQL">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img.nickyam.com/file/d9d709156bb70d1a41b30.png">
+
+<link rel="canonical" href="https://www.helloxiuenng.com.cn/2023/07/17/Python%E4%B8%ADMySQL%E7%9A%84%E4%BD%BF%E7%94%A8%E3%80%90%E7%88%AC%E8%99%AB%E3%80%91/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Python中MySQL的使用【爬虫】 | 修能的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<style>.darkmode--activated{--body-bg-color:#282828;--content-bg-color:#333;--card-bg-color:#555;--text-color:#ccc;--blockquote-color:#bbb;--link-color:#ccc;--link-hover-color:#eee;--brand-color:#ddd;--brand-hover-color:#ddd;--table-row-odd-bg-color:#282828;--table-row-hover-bg-color:#363636;--menu-item-bg-color:#555;--btn-default-bg:#222;--btn-default-color:#ccc;--btn-default-border-color:#555;--btn-default-hover-bg:#666;--btn-default-hover-color:#ccc;--btn-default-hover-border-color:#666;--highlight-background:#282b2e;--highlight-foreground:#a9b7c6;--highlight-gutter-background:#34393d;--highlight-gutter-foreground:#9ca9b6}.darkmode--activated img{opacity:.75}.darkmode--activated img:hover{opacity:.9}.darkmode--activated code{color:#69dbdc;background:0 0}button.darkmode-toggle{z-index:9999}.darkmode-ignore,img{display:flex!important}.beian img{display:inline-block!important}</style></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">修能的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">や！诸君~おはよう~今日は道に迷てなあ~</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">30</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">15</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">36</span></a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.helloxiuenng.com.cn/2023/07/17/Python%E4%B8%ADMySQL%E7%9A%84%E4%BD%BF%E7%94%A8%E3%80%90%E7%88%AC%E8%99%AB%E3%80%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://img.nickyam.com/file/f8367734b39ee55b0b3fa.jpg">
+      <meta itemprop="name" content="修能">
+      <meta itemprop="description" content="别让别人决定你的生活！">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="修能的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Python中MySQL的使用【爬虫】
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-07-17 10:04:33 / 修改时间：19:05:38" itemprop="dateCreated datePublished" datetime="2023-07-17T10:04:33+08:00">2023-07-17</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python3%E7%88%AC%E8%99%AB%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index"><span itemprop="name">Python3爬虫基础</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python3%E7%88%AC%E8%99%AB%E5%9F%BA%E7%A1%80/%E7%88%AC%E8%99%AB%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" itemprop="url" rel="index"><span itemprop="name">爬虫基础知识</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">Python高级编程</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.1k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>8 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="mysql-的存储">MySQL 的存储</h1>
+<p>关系型数据库是基于关系模型的数据库，关系模型是通过二维表来保存的，所以关系型数据库中的数据的存储方式就是行列组成的表，每一列代表一个字段，每一行代表一个记录。</p>
+<p><code>Python</code>关于操作<code>MySQL</code>的库是<code>PyMySQL</code>。</p>
+<span id="more"></span>
+<h2 id="pymysql和mysql的安装">PyMySQL和MySQL的安装</h2>
+<p>MySQL的安装可以直接去<a
+target="_blank" rel="noopener" href="https://dev.mysql.com/downloads/mysql/">官网</a>下载:(https://dev.mysql.com/downloads/mysql/)</p>
+<p>PyMySQL的安装：</p>
+<p>在终端输入：</p>
+<p><code>pip install pymysql</code></p>
+<h2 id="连接到数据库">连接到数据库</h2>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pymysql</span><br><span class="line"></span><br><span class="line">db = pymysql.connect(host=<span class="string">&#x27;localhost&#x27;</span>,user=<span class="string">&#x27;root&#x27;</span>,password=<span class="string">&#x27;123456&#x27;</span>,port=<span class="number">3306</span>)</span><br><span class="line">cursor = db.cursor()</span><br><span class="line">cursor.execute(<span class="string">&#x27;SELECT VERSION()&#x27;</span>)</span><br><span class="line">data = cursor.fetchone()</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;Database version:&#x27;</span>,data)</span><br><span class="line">cursor.execute(<span class="string">&quot;CREATE DATABASE spiders DEFAULT CHARACTER SET utf8mb4&quot;</span>)</span><br><span class="line"></span><br><span class="line">db.close()</span><br></pre></td></tr></table></figure>
+<p>首先通过PyMySQL的<code>connect</code>方法声明了一个<code>MySQL</code>连接对象<code>db</code>，参数对照如下：</p>
+<ul>
+<li><code>host</code>:主机地址，由于数据库在机器本地，所以使用<code>localhost</code>。</li>
+<li><code>user</code>:用户名，使用数据库默认的<code>root</code>的用户。</li>
+<li><code>password</code>:用户密码。</li>
+<li><code>port</code>:数据库端口，数据库默认<code>port</code>为3306</li>
+</ul>
+<p>连接成功后，调用<code>cursor</code>方法获得<code>MySQL</code>的操作游标，利用游标可以操作SQL语句。</p>
+<p>这里首先执行了MySQL的当前版本，<code>fetchone()</code>方法获得第一条数据。</p>
+<blockquote>
+<p><code>fetchone()</code>
+是一种用于从数据库查询结果集中检索下一行的方法。在编程中，它通常用于与数据库连接和执行
+SQL 查询的过程中。</p>
+</blockquote>
+<p>之后再用SQL语句创建了一个数据库<code>spiders</code>。</p>
+<h2 id="创建表">创建表</h2>
+<p>确保数据库保持开启状态，且python程序已经连接到了数据库。</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pymysql</span><br><span class="line"></span><br><span class="line">db = pymysql.connect(host=<span class="string">&#x27;localhost&#x27;</span>,user=<span class="string">&#x27;root&#x27;</span>,password=<span class="string">&#x27;123456&#x27;</span>,port=<span class="number">3306</span>,db=<span class="string">&#x27;spiders&#x27;</span>)</span><br><span class="line">cursor = db.cursor()</span><br><span class="line">sql = <span class="string">&#x27;CREATE TABLE IF NOT EXISTS students (id VARCHAR(255) NOT NULL,name VARCHAR(255) NOT NULL,&#x27;</span> \</span><br><span class="line">      <span class="string">&#x27;age INT NOT NULL, PRIMARY KEY (id))&#x27;</span></span><br><span class="line"></span><br><span class="line">cursor.execute(sql)</span><br><span class="line">db.close()</span><br></pre></td></tr></table></figure>
+<p><strong>结果</strong>：</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;">字段名</th>
+<th style="text-align: center;">含义</th>
+<th style="text-align: center;">类型</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">id</td>
+<td style="text-align: center;">学号</td>
+<td style="text-align: center;">varchar</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">name</td>
+<td style="text-align: center;">姓名</td>
+<td style="text-align: center;">varchar</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">age</td>
+<td style="text-align: center;">年龄</td>
+<td style="text-align: center;">int</td>
+</tr>
+</tbody>
+</table>
+<p>在实际的操作中，会根据爬取的结果来设计特定的字段。</p>
+<h2 id="插入数据">插入数据</h2>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pymysql</span><br><span class="line"></span><br><span class="line"><span class="string">&quot;&quot;&quot;待添加的信息&quot;&quot;&quot;</span></span><br><span class="line"><span class="built_in">id</span> = <span class="string">&#x27;20210101&#x27;</span></span><br><span class="line">name = <span class="string">&#x27;修能&#x27;</span></span><br><span class="line">age = <span class="number">20</span></span><br><span class="line"></span><br><span class="line">db = pymysql.connect(host=<span class="string">&#x27;localhost&#x27;</span>,user=<span class="string">&#x27;root&#x27;</span>,password=<span class="string">&#x27;123456&#x27;</span>,port=<span class="number">3306</span>,db=<span class="string">&#x27;spiders&#x27;</span>)</span><br><span class="line">cursor = db.cursor()</span><br><span class="line"></span><br><span class="line">sql = <span class="string">&#x27;INSERT INTO students(id,name,age) value(%s,%s,%s)&#x27;</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    cursor.execute(sql,(<span class="built_in">id</span>,name,age))</span><br><span class="line">    db.commit()</span><br><span class="line"><span class="keyword">except</span>:</span><br><span class="line">    db.rollback()</span><br><span class="line">db.close()</span><br></pre></td></tr></table></figure>
+<p>sql语句可以用格式化的字符来简易的构造，之后在输入元组即可对应参数。</p>
+<p><font color = red>注意：在插入数据后要使用<code>.commit()</code>来保存数据。</font></p>
+<blockquote>
+<p>在数据库操作中，<code>commit()</code>
+是一个方法，用于将挂起的事务保存并永久地应用于数据库。它将事务中的所有更改持久化，使其成为数据库的一部分。</p>
+<p>当您执行插入、更新或删除等修改操作时，这些更改会在事务中进行缓冲，而不会立即应用到数据库中。这样可以确保一系列相关操作的原子性，即要么全部成功应用，要么全部回滚。例如，在一个事务中插入多个记录，如果其中任何一条插入失败，可以回滚整个事务，以保持数据的一致性。</p>
+<p>而 <code>commit()</code>
+方法的作用是显式地提交事务，将事务中的更改应用到数据库。一旦调用了
+<code>commit()</code>，所做的更改将永久保存在数据库中，并且不可逆转。</p>
+<p>在使用某些数据库引擎或框架时，如果不显式地调用
+<code>commit()</code>，所做的更改可能不会立即生效，而是在事务结束时自动提交。但是，对于某些数据库引擎，如
+SQLite，在默认情况下，每个 SQL
+语句都会自动成为一个事务，并在执行完毕后自动提交。</p>
+<p>因此，根据您使用的数据库引擎和使用的事务模式，<code>commit()</code>
+的具体用法可能会有所不同。在大多数情况下，当您的事务完成且您确认要将更改永久保存到数据库时，调用
+<code>commit()</code> 是一个好的实践。</p>
+</blockquote>
+<p>异常处理是一个很好的习惯，一旦发生异常，不会让我们的数据库遭到破坏，<code>.rollback()</code>是让操作回滚的方法，相当于什么都没有发生过。</p>
+<blockquote>
+<p>在数据库操作中，<code>.rollback()</code>
+是一个方法，用于撤销挂起的事务并回滚（取消）对数据库所做的所有更改。</p>
+<p>事务是数据库操作的逻辑单元，可以包含多个操作（例如插入、更新或删除数据）。如果在事务过程中发生错误或不满足某些条件，您可能希望撤销该事务并恢复到操作前的状态。这时就可以使用
+<code>.rollback()</code> 方法。</p>
+<p>当调用 <code>.rollback()</code>
+方法时，将撤销事务中的所有更改，并将数据库恢复到事务开始时的状态。这样，所有更改都被取消，数据库中的数据将回滚到之前的状态。</p>
+</blockquote>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 74%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>属　　性</th>
+<th>解　　释</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>原子性（atomicity）</td>
+<td>事务是一个<code>不可分割</code>的工作单位，事务中包括的诸操作要么都做，要么都不做</td>
+</tr>
+<tr class="even">
+<td>一致性（consistency）</td>
+<td>事务必须使数据库从一个一致性状态变到另一个一致性状态。一致性与原子性是密切相关的</td>
+</tr>
+<tr class="odd">
+<td>隔离性（isolation）</td>
+<td>一个事务的执行不能被其他事务干扰，即一个事务内部的操作及使用的数据对并发的其他事务是隔离的，并发执行的各个事务之间不能互相干扰</td>
+</tr>
+<tr class="even">
+<td>持久性（durability）</td>
+<td>持续性也称永久性（permanence），指一个事务一旦提交，它对数据库中数据的改变就应该是永久性的。接下来的其他操作或故障不应该对其有任何影响</td>
+</tr>
+</tbody>
+</table>
+<p>所以一般的标准更改(插入、删除和更新)操作，一般的代码为：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>:	</span><br><span class="line">    db.execute(sql)</span><br><span class="line">    db.commit()</span><br><span class="line"><span class="keyword">except</span>:</span><br><span class="line">    db.rollback()</span><br></pre></td></tr></table></figure>
+<p>但是这样的插入方法比较麻烦，作为通用方法，只需要传入一个动态的字典就可以了。</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pymysql</span><br><span class="line"></span><br><span class="line">data = &#123;</span><br><span class="line">    <span class="string">&#x27;id&#x27;</span>: <span class="string">&#x27;20220202&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;JR&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;age&#x27;</span>: <span class="number">33</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">db = pymysql.connect(host=<span class="string">&#x27;localhost&#x27;</span>, user=<span class="string">&#x27;root&#x27;</span>, password=<span class="string">&#x27;123456&#x27;</span>, port=<span class="number">3306</span>, db=<span class="string">&#x27;spiders&#x27;</span>)</span><br><span class="line">cursor = db.cursor()</span><br><span class="line"></span><br><span class="line">table = <span class="string">&#x27;students&#x27;</span></span><br><span class="line">keys = <span class="string">&#x27;,&#x27;</span>.join(data.keys())</span><br><span class="line">values = <span class="string">&#x27;,&#x27;</span>.join([<span class="string">&#x27;%s&#x27;</span>] * <span class="built_in">len</span>(data))</span><br><span class="line">sql = <span class="string">f&#x27;INSERT INTO <span class="subst">&#123;table&#125;</span> (<span class="subst">&#123;keys&#125;</span>) VALUES (<span class="subst">&#123;values&#125;</span>)&#x27;</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    <span class="keyword">if</span> cursor.execute(sql,<span class="built_in">tuple</span>(data.values())):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;Successful!&#x27;</span>)</span><br><span class="line">        db.commit()</span><br><span class="line"><span class="keyword">except</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Failed&#x27;</span>)</span><br><span class="line">    db.rollback()</span><br><span class="line">db.close()</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">keys:id,name,age</span><br><span class="line">values:%s,%s,%s</span><br><span class="line">sql:INSERT INTO students (id,name,age) VALUES (%s,%s,%s)</span><br></pre></td></tr></table></figure>
+<p><code>values = ','.join(['%s'] * len(data))</code>安装值的数量生成相应数量<code>%S</code>占位符。</p>
+<h2 id="更新数据">更新数据</h2>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pymysql</span><br><span class="line"></span><br><span class="line">db = pymysql.connect(host=<span class="string">&#x27;localhost&#x27;</span>, user=<span class="string">&#x27;root&#x27;</span>, password=<span class="string">&#x27;123456&#x27;</span>, port=<span class="number">3306</span>, db=<span class="string">&#x27;spiders&#x27;</span>)</span><br><span class="line">cursor = db.cursor()</span><br><span class="line"></span><br><span class="line">sql = <span class="string">&#x27;UPDATE students SET age = %s WHERE name = %s&#x27;</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    cursor.execute(sql, (<span class="number">1009</span>, <span class="string">&#x27;JR&#x27;</span>))</span><br><span class="line">    db.commit()</span><br><span class="line"><span class="keyword">except</span>:</span><br><span class="line">    db.rollback()</span><br><span class="line">db.close()</span><br></pre></td></tr></table></figure>
+<p>灵活的字典：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pymysql</span><br><span class="line"></span><br><span class="line">db = pymysql.connect(host=<span class="string">&#x27;localhost&#x27;</span>, user=<span class="string">&#x27;root&#x27;</span>, password=<span class="string">&#x27;123456&#x27;</span>, port=<span class="number">3306</span>, db=<span class="string">&#x27;spiders&#x27;</span>)</span><br><span class="line">cursor = db.cursor()</span><br><span class="line"></span><br><span class="line">data = &#123;</span><br><span class="line">    <span class="string">&#x27;id&#x27;</span>: <span class="string">&#x27;20220202&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;JR&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;age&#x27;</span>: <span class="number">33</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">table = <span class="string">&#x27;students&#x27;</span></span><br><span class="line">keys = <span class="string">&#x27;,&#x27;</span>.join(data.keys())</span><br><span class="line">values = <span class="string">&#x27;,&#x27;</span>.join([<span class="string">&#x27;%s&#x27;</span>] * <span class="built_in">len</span>(data))</span><br><span class="line">sql = <span class="string">f&#x27;INSERT INTO <span class="subst">&#123;table&#125;</span> (<span class="subst">&#123;keys&#125;</span>) VALUES (<span class="subst">&#123;values&#125;</span>) ON DUPLICATE KEY UPDATE &#x27;</span></span><br><span class="line">update = <span class="string">&#x27;,&#x27;</span>.join([<span class="string">f&quot;<span class="subst">&#123;key&#125;</span> = %s&quot;</span> <span class="keyword">for</span> key <span class="keyword">in</span> data])</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">sql += update</span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    <span class="keyword">if</span> cursor.execute(sql,<span class="built_in">tuple</span>(data.values()) * <span class="number">2</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;Successful!&#x27;</span>)</span><br><span class="line">        db.commit()</span><br><span class="line"><span class="keyword">except</span>:</span><br><span class="line">    db.rollback()</span><br><span class="line">db.close()</span><br></pre></td></tr></table></figure>
+<p>在插入语句中，加入<code>ON DUPLICATE KEY UPDATE</code>语句的作用是：<font color = blue>如果主键存在，就执行更新操作。</font></p>
+<p>完整的SQL的语句是：</p>
+<p><code>INSERT INTO students (id,name,age) VALUES (%s,%s,%s) ON DUPLICATE KEY UPDATE id = %s,name = %s,age = %s ('20220202', 'JR', 33, '20220202', 'JR', 33)</code></p>
+<h2 id="删除数据">删除数据</h2>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pymysql</span><br><span class="line"></span><br><span class="line">db = pymysql.connect(host=<span class="string">&#x27;localhost&#x27;</span>, user=<span class="string">&#x27;root&#x27;</span>, password=<span class="string">&#x27;123456&#x27;</span>, port=<span class="number">3306</span>, db=<span class="string">&#x27;spiders&#x27;</span>)</span><br><span class="line">cursor = db.cursor()</span><br><span class="line"></span><br><span class="line">table = <span class="string">&#x27;students&#x27;</span></span><br><span class="line">condition = <span class="string">&#x27;age &gt; 22&#x27;</span></span><br><span class="line"></span><br><span class="line">sql = <span class="string">f&#x27;DELETE FROM <span class="subst">&#123;table&#125;</span> WHERE <span class="subst">&#123;condition&#125;</span>&#x27;</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    cursor.execute(sql)</span><br><span class="line">    db.commit()</span><br><span class="line"><span class="keyword">except</span>:</span><br><span class="line">    db.rollback()</span><br><span class="line">db.close()</span><br></pre></td></tr></table></figure>
+<p>就是简单删除语句。</p>
+<h2 id="查询语句">查询语句</h2>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pymysql</span><br><span class="line"></span><br><span class="line">db = pymysql.connect(host=<span class="string">&#x27;localhost&#x27;</span>, user=<span class="string">&#x27;root&#x27;</span>, password=<span class="string">&#x27;123456&#x27;</span>, port=<span class="number">3306</span>, db=<span class="string">&#x27;spiders&#x27;</span>)</span><br><span class="line">cursor = db.cursor()</span><br><span class="line"></span><br><span class="line">sql = <span class="string">&#x27;SELECT * FROM students WHERE age &gt;= 20&#x27;</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    cursor.execute(sql)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Count:&#x27;</span>,cursor.rowcount)</span><br><span class="line">    one = cursor.fetchone()</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;One:&#x27;</span>,one)</span><br><span class="line">    results = cursor.fetchall()</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Result:&#x27;</span>,results)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;ResultType:&#x27;</span>,<span class="built_in">type</span>(results))</span><br><span class="line">    <span class="keyword">for</span> row <span class="keyword">in</span> results:</span><br><span class="line">        <span class="built_in">print</span>(row)</span><br><span class="line"><span class="keyword">except</span>:</span><br><span class="line">    db.rollback()</span><br><span class="line">db.close()</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Count: 4</span><br><span class="line">One: (&#x27;20210101&#x27;, &#x27;修能&#x27;, 20)</span><br><span class="line">Result: ((&#x27;20220202&#x27;, &#x27;JR&#x27;, 33), (&#x27;20220203&#x27;, &#x27;DZK&#x27;, 23), (&#x27;20220204&#x27;, &#x27;GKH&#x27;, 32))</span><br><span class="line">ResultType: &lt;class &#x27;tuple&#x27;&gt;</span><br><span class="line">(&#x27;20220202&#x27;, &#x27;JR&#x27;, 33)</span><br><span class="line">(&#x27;20220203&#x27;, &#x27;DZK&#x27;, 23)</span><br><span class="line">(&#x27;20220204&#x27;, &#x27;GKH&#x27;, 32)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>fetchall()</code>
+是一种用于从数据库查询结果集中检索所有行的方法。它将返回一个包含所有行的列表，每个行都以元组的形式表示</p>
+</blockquote>
+<figure>
+<img src="https://img.nickyam.com/file/d9d709156bb70d1a41b30.png"
+alt="数据库" />
+<figcaption aria-hidden="true">数据库</figcaption>
+</figure>
+<h3 id="更简约的查找">更简约的查找</h3>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pymysql</span><br><span class="line"></span><br><span class="line">db = pymysql.connect(host=<span class="string">&#x27;localhost&#x27;</span>, user=<span class="string">&#x27;root&#x27;</span>, password=<span class="string">&#x27;123456&#x27;</span>, port=<span class="number">3306</span>, db=<span class="string">&#x27;spiders&#x27;</span>)</span><br><span class="line">cursor = db.cursor()</span><br><span class="line"></span><br><span class="line">sql = <span class="string">&#x27;SELECT * FROM students WHERE age &gt;= 20&#x27;</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    cursor.execute(sql)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Count:&#x27;</span>,cursor.rowcount)</span><br><span class="line">    row = cursor.fetchone()</span><br><span class="line">    <span class="keyword">while</span> row:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;Row:&#x27;</span>,row)</span><br><span class="line">        row = cursor.fetchone()</span><br><span class="line"><span class="keyword">except</span>:</span><br><span class="line">    db.rollback()</span><br><span class="line">db.close()</span><br><span class="line">        </span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Count: 4</span><br><span class="line">Row: (&#x27;20210101&#x27;, &#x27;修能&#x27;, 20)</span><br><span class="line">Row: (&#x27;20220202&#x27;, &#x27;JR&#x27;, 33)</span><br><span class="line">Row: (&#x27;20220203&#x27;, &#x27;DZK&#x27;, 23)</span><br><span class="line">Row: (&#x27;20220204&#x27;, &#x27;GKH&#x27;, 32)</span><br></pre></td></tr></table></figure>
+<p>用while循环加<code>fetchone()</code>来获取所有的数据，而不是<code>fetchall()</code>全部获取出来。</p>
+<p>因为<code>fetchall</code>会将结果以元组的形式全部返回，如果数据过多，资源的占用会比较大。</p>
+<p>用while这种写法，每获取一次数据指针就会向下偏移一次，比较简答高效，资源的占用也比较小。</p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>修能
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://www.helloxiuenng.com.cn/2023/07/17/Python%E4%B8%ADMySQL%E7%9A%84%E4%BD%BF%E7%94%A8%E3%80%90%E7%88%AC%E8%99%AB%E3%80%91/" title="Python中MySQL的使用【爬虫】">https://www.helloxiuenng.com.cn/2023/07/17/Python中MySQL的使用【爬虫】/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <div>
+        
+          <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+
+        
+      </div>
+
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/%E7%88%AC%E8%99%AB/" rel="tag"><i class="fa fa-tag"></i> 爬虫</a>
+              <a href="/tags/Python%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B/" rel="tag"><i class="fa fa-tag"></i> Python高级编程</a>
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag"><i class="fa fa-tag"></i> 数据库</a>
+              <a href="/tags/MySQL/" rel="tag"><i class="fa fa-tag"></i> MySQL</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/07/17/MongoDB%E6%96%87%E6%A1%A3%E5%AD%98%E5%82%A8/" rel="prev" title="MongoDB文档存储">
+      <i class="fa fa-chevron-left"></i> MongoDB文档存储
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/07/15/%E6%95%B0%E6%8D%AE%E7%9A%84%E5%AD%98%E5%82%A8%E3%80%90%E7%88%AC%E8%99%AB%E3%80%91/" rel="next" title="数据的文本存储【爬虫】">
+      数据的文本存储【爬虫】 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#mysql-%E7%9A%84%E5%AD%98%E5%82%A8"><span class="nav-number">1.</span> <span class="nav-text">MySQL 的存储</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#pymysql%E5%92%8Cmysql%E7%9A%84%E5%AE%89%E8%A3%85"><span class="nav-number">1.1.</span> <span class="nav-text">PyMySQL和MySQL的安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9E%E6%8E%A5%E5%88%B0%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">1.2.</span> <span class="nav-text">连接到数据库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E8%A1%A8"><span class="nav-number">1.3.</span> <span class="nav-text">创建表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8F%92%E5%85%A5%E6%95%B0%E6%8D%AE"><span class="nav-number">1.4.</span> <span class="nav-text">插入数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9B%B4%E6%96%B0%E6%95%B0%E6%8D%AE"><span class="nav-number">1.5.</span> <span class="nav-text">更新数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E6%95%B0%E6%8D%AE"><span class="nav-number">1.6.</span> <span class="nav-text">删除数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%A5%E8%AF%A2%E8%AF%AD%E5%8F%A5"><span class="nav-number">1.7.</span> <span class="nav-text">查询语句</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9B%B4%E7%AE%80%E7%BA%A6%E7%9A%84%E6%9F%A5%E6%89%BE"><span class="nav-number">1.7.1.</span> <span class="nav-text">更简约的查找</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="修能"
+      src="https://img.nickyam.com/file/f8367734b39ee55b0b3fa.jpg">
+  <p class="site-author-name" itemprop="name">修能</p>
+  <div class="site-description" itemprop="description">别让别人决定你的生活！</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">36</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">30</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Lxiunneg" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Lxiunneg" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="link fa-fw"></i>
+      参考网站
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.luogu.com.cn/" title="https:&#x2F;&#x2F;www.luogu.com.cn" rel="noopener" target="_blank">洛谷</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.lanqiao.cn/problems/?first_category_id=1&sort=students_count" title="https:&#x2F;&#x2F;www.lanqiao.cn&#x2F;problems&#x2F;?first_category_id&#x3D;1&amp;sort&#x3D;students_count" rel="noopener" target="_blank">蓝桥杯题库</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.runoob.com/" title="https:&#x2F;&#x2F;www.runoob.com&#x2F;" rel="noopener" target="_blank">菜鸟教程</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://axutongxue.gitee.io/" title="https:&#x2F;&#x2F;axutongxue.gitee.io&#x2F;" rel="noopener" target="_blank">阿虚同学的储物间</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://libgen.ee/" title="https:&#x2F;&#x2F;libgen.ee&#x2F;" rel="noopener" target="_blank">Libgee</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2023-03 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Xiunneg</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">57k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">3:28</span>
+</div>
+
+<!-- <br /> -->
+<!-- 网站运行时间的设置 -->
+<span id="timeDate">载入天数...</span>
+<!-- <span id="times">载入时分秒...</span> -->
+<script>
+    var now = new Date();
+    function createtime() {
+        var grt= new Date("03/30/2023 00:00:00");//此处修改你的建站时间或者网站上线时间
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds); 
+        if(String(snum).length ==1 ){snum = "0" + snum;}
+        // var times = document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "+hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+    }
+setInterval("createtime()",250);
+</script>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest-nomobile.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+
+
+  
+  <script>
+    (function(){
+      var canonicalURL, curProtocol;
+      //Get the <link> tag
+      var x=document.getElementsByTagName("link");
+		//Find the last canonical URL
+		if(x.length > 0){
+			for (i=0;i<x.length;i++){
+				if(x[i].rel.toLowerCase() == 'canonical' && x[i].href){
+					canonicalURL=x[i].href;
+				}
+			}
+		}
+    //Get protocol
+	    if (!canonicalURL){
+	    	curProtocol = window.location.protocol.split(':')[0];
+	    }
+	    else{
+	    	curProtocol = canonicalURL.split(':')[0];
+	    }
+      //Get current URL if the canonical URL does not exist
+	    if (!canonicalURL) canonicalURL = window.location.href;
+	    //Assign script content. Replace current URL with the canonical URL
+      !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=canonicalURL,t=document.referrer;if(!e.test(r)){var n=(String(curProtocol).toLowerCase() === 'https')?"https://sp0.baidu.com/9_Q4simg2RQJ8t7jm9iCKT-xh_/s.gif":"//api.share.baidu.com/s.gif";t?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var i=new Image;i.src=n}}(window);})();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false});</script></body>
+</html>

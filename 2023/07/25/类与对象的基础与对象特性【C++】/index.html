@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/Cutian.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/Cutian.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/Cutian.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="baidu-site-verification" content="codeva-pW1EhZvLGz" />>
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Trebuchet MS:300,300italic,400,400italic,700,700italic|NSimSun:300,300italic,400,400italic,700,700italic|FangSong:300,300italic,400,400italic,700,700italic|Courier New:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-mac-osx.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.helloxiuenng.com.cn","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="类与面向对象 C++面向对象的三大特性：封装、继承、多态。 &gt; 面向对象(Object-Oriented)是一种软件开发的方法论，它将程序中的数据和操作数据的逻辑封装在一起，以形成对象的概念，对象可以互相之间进行交互和通信。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="类与对象的基础与对象特性【C++】">
+<meta property="og:url" content="https://www.helloxiuenng.com.cn/2023/07/25/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%9F%BA%E7%A1%80%E4%B8%8E%E5%AF%B9%E8%B1%A1%E7%89%B9%E6%80%A7%E3%80%90C++%E3%80%91/index.html">
+<meta property="og:site_name" content="修能的博客">
+<meta property="og:description" content="类与面向对象 C++面向对象的三大特性：封装、继承、多态。 &gt; 面向对象(Object-Oriented)是一种软件开发的方法论，它将程序中的数据和操作数据的逻辑封装在一起，以形成对象的概念，对象可以互相之间进行交互和通信。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-07-25T08:41:11.000Z">
+<meta property="article:modified_time" content="2023-07-25T08:42:36.653Z">
+<meta property="article:author" content="修能">
+<meta property="article:tag" content="C++">
+<meta property="article:tag" content="面向对象">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.helloxiuenng.com.cn/2023/07/25/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%9F%BA%E7%A1%80%E4%B8%8E%E5%AF%B9%E8%B1%A1%E7%89%B9%E6%80%A7%E3%80%90C++%E3%80%91/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>类与对象的基础与对象特性【C++】 | 修能的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style><style>.darkmode--activated{--body-bg-color:#282828;--content-bg-color:#333;--card-bg-color:#555;--text-color:#ccc;--blockquote-color:#bbb;--link-color:#ccc;--link-hover-color:#eee;--brand-color:#ddd;--brand-hover-color:#ddd;--table-row-odd-bg-color:#282828;--table-row-hover-bg-color:#363636;--menu-item-bg-color:#555;--btn-default-bg:#222;--btn-default-color:#ccc;--btn-default-border-color:#555;--btn-default-hover-bg:#666;--btn-default-hover-color:#ccc;--btn-default-hover-border-color:#666;--highlight-background:#282b2e;--highlight-foreground:#a9b7c6;--highlight-gutter-background:#34393d;--highlight-gutter-foreground:#9ca9b6}.darkmode--activated img{opacity:.75}.darkmode--activated img:hover{opacity:.9}.darkmode--activated code{color:#69dbdc;background:0 0}button.darkmode-toggle{z-index:9999}.darkmode-ignore,img{display:flex!important}.beian img{display:inline-block!important}</style></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">修能的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">や！诸君~おはよう~今日は道に迷てなあ~</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">30</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">15</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">36</span></a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.helloxiuenng.com.cn/2023/07/25/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%9F%BA%E7%A1%80%E4%B8%8E%E5%AF%B9%E8%B1%A1%E7%89%B9%E6%80%A7%E3%80%90C++%E3%80%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://img.nickyam.com/file/f8367734b39ee55b0b3fa.jpg">
+      <meta itemprop="name" content="修能">
+      <meta itemprop="description" content="别让别人决定你的生活！">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="修能的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          类与对象的基础与对象特性【C++】
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-07-25 16:41:11 / 修改时间：16:42:36" itemprop="dateCreated datePublished" datetime="2023-07-25T16:41:11+08:00">2023-07-25</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index"><span itemprop="name">C++</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/C-%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">C++语言学习</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>8 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="类与面向对象">类与面向对象</h1>
+<p><strong>C++</strong>面向对象的三大特性：<code>封装</code>、<code>继承</code>、<code>多态</code>。<br>
+&gt;
+面向对象(Object-Oriented)是一种软件开发的方法论，它将程序中的数据和操作数据的逻辑封装在一起，以形成对象的概念，对象可以互相之间进行交互和通信。</p>
+<span id="more"></span>
+<h2 id="名词解释">名词解释</h2>
+<h3 id="什么是类">什么是类？</h3>
+<p>类(<code>Class</code>):
+类是对象的抽象，它定义了一个对象的<strong>属性</strong>和<strong>方法</strong>。类可以看作是<strong>创建对象的模板或蓝图</strong>。</p>
+<h4 id="struct-和-class-之间的区别">struct 和 class 之间的区别</h4>
+<p>struct 和 class 之间的区别
+在许多编程语言中，包括C++和C#等，都支持使用<code>struct</code>和<code>class</code>来定义数据结构和数据类型。下面是<code>struct</code>和<code>class</code>之间的主要区别：</p>
+<ol type="1">
+<li>成员的默认访问权限：
+<code>class</code>是私有，<code>struct</code>公有。</li>
+<li>继承能力：
+<code>class</code>支持继承，<code>struct</code>不支持继承。</li>
+<li>分配方式：
+<code>class</code>是引用类型数据（堆区），<code>struct</code>是值类型数据（栈区）。</li>
+<li>默认的拷贝方法：<code>class</code>是浅拷贝，<code>struct</code>逐成员拷贝。</li>
+</ol>
+<h3 id="什么是对象">什么是对象？</h3>
+<p>对象(<code>Object</code>)是****类的实例<strong>，它是</strong>具体的<strong>、</strong>实际存在**的数据实体，具有类所定义的属性和方法。</p>
+<h3 id="什么是封装">什么是封装？</h3>
+<p>封装(<code>Encapsulation</code>):
+封装是将<strong>数据</strong>和<strong>操作数据的方法</strong>绑定在一起，通过<strong>限制对数据的访问</strong>，确保数据的<strong>完整性</strong>和<strong>安全性</strong>。</p>
+<h3 id="什么是继承">什么是继承？</h3>
+<p>继承(<code>Inheritance</code>):
+继承<strong>允许一个类继承另一个类</strong>的特性和行为，从而实现代码的重用和扩展</p>
+<h3 id="什么是多态">什么是多态？</h3>
+<p>多态(<code>Polymorphism</code>):
+多态允许使用<strong>统一的接口</strong>来操作<strong>不同类型的对象</strong>，提供了代码的灵活性和可维护性。</p>
+<h2 id="封装">封装</h2>
+<p>在面向对象编程中，封装可以帮助保护数据和方法的访问权限，确保对数据的访问和操作符合预期并符合设计意图。</p>
+<h3 id="访问权限">访问权限</h3>
+<p>权限的控制有三种： 1. <code>public</code> 公共权限<br>
+公开访问表示成员（属性或方法）对<strong>所有对象和其他类</strong>可见，并且可以被直接访问和调用。
+2. <code>private</code> 私有权限<br>
+私有访问表示成员<strong>仅对所属类内部</strong>可见，其他类无法直接访问私有成员。私有成员只能被类内部的方法所使用。
+3. <code>protected</code> 保护权限<br>
+保护访问类似于私有访问，但<strong>对于继承关系中的子类</strong>是可见的。即子类可以访问基类的保护成员，但其他类无法直接访问。但是仅仅也只是保护权限的内容。</p>
+<h3 id="私有权限">私有权限</h3>
+<p>在将成员设置为私有时，一般会写一些公共方法来对私有成员进行读写的操作，即<code>get()</code>和<code>set()</code>方法。</p>
+<p>这样就可以对数据的读写性进行控制，只要不写私有成员<code>get</code>或<code>set</code>方法就可以了。</p>
+<p>这样还可以对数据的输入进行控制，只要在<code>set()</code>中添加判断逻辑，就可以控制数据的有效范围。</p>
+<h3 id="如何判断两个对象是否相等">如何判断两个对象是否相等</h3>
+<p>有两种方法：</p>
+<ol type="1">
+<li>定义全局函数（不建议）</li>
+<li>定义成员函数</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">bool</span> <span class="title">student::isEqual</span><span class="params">(student stu)</span></span></span><br><span class="line"><span class="function"></span>{</span><br><span class="line">    <span class="keyword">return</span> stu.<span class="built_in">getName</span>() == <span class="keyword">this</span>-&gt;Name &amp;&amp; stu.<span class="built_in">getGender</span>() == <span class="keyword">this</span>-&gt;Gender &amp;&amp; stu.<span class="built_in">getAge</span>() == <span class="keyword">this</span>-&gt;Age;</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<h2 id="对象的初始化和清理">对象的初始化和清理</h2>
+<h3 id="构造函数">构造函数</h3>
+<p>在实例化对象的时候自动的调用。</p>
+<p>如果不写构造函数，对象会默认创建对象的默认的无参构造函数。</p>
+<p>函数名与类名相同。</p>
+<h4 id="构造函数的分类">构造函数的分类</h4>
+<p>按参数分：</p>
+<ol type="1">
+<li>无参构造</li>
+<li>有参构造</li>
+</ol>
+<p>按调用的分类：</p>
+<ol type="1">
+<li><p>拷贝构造</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">student</span>(<span class="type">const</span> student &amp;stu);</span><br><span class="line"></span><br><span class="line"><span class="function">student <span class="title">s3</span><span class="params">(s1)</span></span>;</span><br></pre></td></tr></table></figure>
+<p><code>const</code>是因为不能改变原先对象的值</p>
+<p><code>&amp;</code>引用是因为防止递归调用</p></li>
+<li><p>显式构造</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">student s1 = <span class="built_in">student</span>(<span class="string">"xiunneg"</span>,student::GENDER::Male, <span class="number">13</span>);</span><br></pre></td></tr></table></figure>
+<p><code>student("xiunneg",student::GENDER::Male, 13);</code>是一个<code>匿名对象</code>。</p></li>
+<li><p>隐式构造（不建议，仅仅适用于单个参数的构造）</p></li>
+</ol>
+<h4 id="拷贝构造注意事项">拷贝构造注意事项</h4>
+<p>当对象被以值的形式传递时会调用到拷贝构造函数。。</p>
+<h3 id="析构函数">析构函数</h3>
+<p>用于对象的销毁前会自动调用来销毁对象。</p>
+<p>函数名为：<code>~类名()</code></p>
+<h3 id="深拷贝和浅拷贝">深拷贝和浅拷贝</h3>
+<p>浅拷贝： 简单的赋值拷贝操作</p>
+<p>深拷贝： 在堆区重新申请空间，进行拷贝操作</p>
+<p>这两种拷贝的区别就是对于指针类型的数据的操作。</p>
+<p>以下用<code>A</code>对象指源对象，<code>B</code>对象指通过拷贝构造<code>A</code>对象而得到的对象。</p>
+<p>浅拷贝对于指针类型的复制只会复制指针的值，不会拷贝指针指向的值，就是说两个对象中的指针成员所指向的是同一个内存空间，通过<code>A</code>对象可以修改通过浅拷贝复制构造出的<code>B</code>对象的值。</p>
+<p>深拷贝要求将指针的数据类型重新分配内存地址，再去赋值，这样就在修改<code>B</code>对象时不会修改<code>A</code>对象的数据了，因为指针指的不是同一块内存地址了。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">inline</span> <span class="title">Person::Person</span><span class="params">(<span class="type">const</span> Person &amp;other)</span></span></span><br><span class="line"><span class="function"></span>{</span><br><span class="line">    data = <span class="keyword">new</span> <span class="type">int</span>;</span><br><span class="line">    *data = *(other.data);</span><br><span class="line">    cout &lt;&lt; <span class="string">"深拷贝"</span> &lt;&lt; endl;</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="title">Person::Person</span><span class="params">(<span class="type">const</span> Person &amp;other)</span></span></span><br><span class="line"><span class="function"></span>{</span><br><span class="line">    data = other.data;</span><br><span class="line">    cout &lt;&lt; <span class="string">"浅拷贝"</span> &lt;&lt; endl;</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<h3 id="初始化列表">初始化列表</h3>
+<p>用于初始化属性的语法：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Class</span>{</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="type">int</span> A;</span><br><span class="line">    <span class="type">int</span> B;</span><br><span class="line">    <span class="type">int</span> C;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">Class</span>(<span class="type">int</span> a,<span class="type">int</span> b,<span class="type">int</span> c) : <span class="built_in">A</span>(a),<span class="built_in">B</span>(b),<span class="built_in">C</span>(c) {};</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<h3 id="对象成员">对象成员</h3>
+<p>类的成员也可以是别的类的对象。</p>
+<p>那么它们的构造函数和析构函数的调用顺序是怎样的呢？</p>
+<p>遵循一个原则，<strong>谁在外部谁先构造，谁在内部谁先析构</strong>。</p>
+<h3 id="静态成员">静态成员</h3>
+<p>被关键词<code>static</code>修饰过变量或者函数被称为静态成员，它们有以下特点：</p>
+<ol type="1">
+<li><strong>静态成员属性</strong>：它是属于类本身的属性，而不是属于实例化对象的属性，也就是说所有的实例化对象共有这个成员，所有的对象实例的这个值是一样的。</li>
+<li><strong>静态成员函数</strong>：它无法访问非静态成员属性，也无法使用<code>this</code>指针。静态成员函数可以通过类名来直接调用，不需要通过类的实例。</li>
+<li><strong>静态成员的访问控制</strong>：静态成员遵循类的访问控制规则。私有的静态成员只能被类内的函数访问，公有的静态成员可以被任何使用类的代码访问。</li>
+</ol>
+<p>静态成员一般不会通过实例来访问，都是使用类名来进行访问：<code>classname::static member</code>。</p>
+<h2 id="c对象模型">C++对象模型</h2>
+<h3 id="成员变量和成员函数分开存储">成员变量和成员函数分开存储</h3>
+<p>空对象的占用内存空间是1，是因为编译器会将空对象分配一个字节空间，为了区分对象占内存的位置。</p>
+<p>对象的内存空间中只会存储对象中的非静态的成员属性和虚函数表，函数成员存储在类的代码段中。</p>
+<p><strong>静态成员属性</strong>在类内部声明，在类的代码段中进行定义和初始化，并且存储在全局数据区（Global
+Data Segment）</p>
+<h3 id="this指针">this指针</h3>
+<p><code>this指针</code>的本质是<code>classname* const this</code>，是一个指针常量。</p>
+<p>一个非静态成员函数只会生成一份函数实例，也就是多个同类型的对象会去调用同一个函数实例，那如果区分调用的对象就成了一个问题。</p>
+<p><code>this指针</code>可以解决这个问题。</p>
+<p><code>this指针</code>是C++
+提供的特殊对象指针，this指针指向被调用的成员函数所属的对象。</p>
+<p>用处如下：</p>
+<ul>
+<li>当函数的参数与类的属性同名时，需要通过<code>this</code>来区分。</li>
+<li>在类的非静态成员函数返回对象本身时，可使用<code>return *this</code>，同时函数的返回类型也要写成类对象的引用类型<code>Person&amp; func(Person p1) {return *this}</code>，否则返回的是一个新的值，利用是函数可以链式调用。</li>
+</ul>
+<h3 id="const修饰的成员函数">const修饰的成员函数</h3>
+<ul>
+<li><p>常函数</p>
+<p>成员函数后加<code>const</code>后我们称这个函数为<strong>常函数</strong>。其本质是修饰了<code>this</code>指针。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">Testfunc</span><span class="params">()</span> <span class="type">const</span> </span>{};</span><br><span class="line"></span><br><span class="line">classname* <span class="type">const</span> <span class="keyword">this</span> ----&gt; <span class="type">const</span> classname* <span class="type">const</span> <span class="keyword">this</span></span><br></pre></td></tr></table></figure>
+<p>被设置为常函数后，函数的内部不能修改成员属性，也就是设置了该函数为<strong>只读</strong>。</p>
+<p>如果想要在常函数中修改属性，只要在想要修改的对象前用<code>mutable</code>修饰即可。</p></li>
+<li><p>常对象</p>
+<p>声明对象前加<code>const</code>称该对象为常对象</p>
+<p>常对象只能调用常函数。</p></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>修能
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://www.helloxiuenng.com.cn/2023/07/25/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%9F%BA%E7%A1%80%E4%B8%8E%E5%AF%B9%E8%B1%A1%E7%89%B9%E6%80%A7%E3%80%90C++%E3%80%91/" title="类与对象的基础与对象特性【C++】">https://www.helloxiuenng.com.cn/2023/07/25/类与对象的基础与对象特性【C++】/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <div>
+        
+          <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+
+        
+      </div>
+
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/C/" rel="tag"><i class="fa fa-tag"></i> C++</a>
+              <a href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" rel="tag"><i class="fa fa-tag"></i> 面向对象</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/07/25/%E5%8F%8B%E5%85%83%E3%80%90C++%E3%80%91/" rel="prev" title="友元【C++】">
+      <i class="fa fa-chevron-left"></i> 友元【C++】
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/07/23/Selenium%E7%88%AC%E5%8F%96%E5%AE%9E%E6%88%98%E3%80%90%E7%88%AC%E8%99%AB%E3%80%91/" rel="next" title="Selenium爬取实战【爬虫】">
+      Selenium爬取实战【爬虫】 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B1%BB%E4%B8%8E%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1"><span class="nav-number">1.</span> <span class="nav-text">类与面向对象</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%8D%E8%AF%8D%E8%A7%A3%E9%87%8A"><span class="nav-number">1.1.</span> <span class="nav-text">名词解释</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E7%B1%BB"><span class="nav-number">1.1.1.</span> <span class="nav-text">什么是类？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#struct-%E5%92%8C-class-%E4%B9%8B%E9%97%B4%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">struct 和 class 之间的区别</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%AF%B9%E8%B1%A1"><span class="nav-number">1.1.2.</span> <span class="nav-text">什么是对象？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%B0%81%E8%A3%85"><span class="nav-number">1.1.3.</span> <span class="nav-text">什么是封装？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E7%BB%A7%E6%89%BF"><span class="nav-number">1.1.4.</span> <span class="nav-text">什么是继承？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%A4%9A%E6%80%81"><span class="nav-number">1.1.5.</span> <span class="nav-text">什么是多态？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%81%E8%A3%85"><span class="nav-number">1.2.</span> <span class="nav-text">封装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BF%E9%97%AE%E6%9D%83%E9%99%90"><span class="nav-number">1.2.1.</span> <span class="nav-text">访问权限</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A7%81%E6%9C%89%E6%9D%83%E9%99%90"><span class="nav-number">1.2.2.</span> <span class="nav-text">私有权限</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%88%A4%E6%96%AD%E4%B8%A4%E4%B8%AA%E5%AF%B9%E8%B1%A1%E6%98%AF%E5%90%A6%E7%9B%B8%E7%AD%89"><span class="nav-number">1.2.3.</span> <span class="nav-text">如何判断两个对象是否相等</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%88%9D%E5%A7%8B%E5%8C%96%E5%92%8C%E6%B8%85%E7%90%86"><span class="nav-number">1.3.</span> <span class="nav-text">对象的初始化和清理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0"><span class="nav-number">1.3.1.</span> <span class="nav-text">构造函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E7%9A%84%E5%88%86%E7%B1%BB"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">构造函数的分类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8B%B7%E8%B4%9D%E6%9E%84%E9%80%A0%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-number">1.3.1.2.</span> <span class="nav-text">拷贝构造注意事项</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0"><span class="nav-number">1.3.2.</span> <span class="nav-text">析构函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B7%B1%E6%8B%B7%E8%B4%9D%E5%92%8C%E6%B5%85%E6%8B%B7%E8%B4%9D"><span class="nav-number">1.3.3.</span> <span class="nav-text">深拷贝和浅拷贝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E5%88%97%E8%A1%A8"><span class="nav-number">1.3.4.</span> <span class="nav-text">初始化列表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%B9%E8%B1%A1%E6%88%90%E5%91%98"><span class="nav-number">1.3.5.</span> <span class="nav-text">对象成员</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9D%99%E6%80%81%E6%88%90%E5%91%98"><span class="nav-number">1.3.6.</span> <span class="nav-text">静态成员</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#c%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.4.</span> <span class="nav-text">C++对象模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F%E5%92%8C%E6%88%90%E5%91%98%E5%87%BD%E6%95%B0%E5%88%86%E5%BC%80%E5%AD%98%E5%82%A8"><span class="nav-number">1.4.1.</span> <span class="nav-text">成员变量和成员函数分开存储</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#this%E6%8C%87%E9%92%88"><span class="nav-number">1.4.2.</span> <span class="nav-text">this指针</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#const%E4%BF%AE%E9%A5%B0%E7%9A%84%E6%88%90%E5%91%98%E5%87%BD%E6%95%B0"><span class="nav-number">1.4.3.</span> <span class="nav-text">const修饰的成员函数</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="修能"
+      src="https://img.nickyam.com/file/f8367734b39ee55b0b3fa.jpg">
+  <p class="site-author-name" itemprop="name">修能</p>
+  <div class="site-description" itemprop="description">别让别人决定你的生活！</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">36</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">30</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Lxiunneg" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Lxiunneg" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="link fa-fw"></i>
+      参考网站
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.luogu.com.cn/" title="https:&#x2F;&#x2F;www.luogu.com.cn" rel="noopener" target="_blank">洛谷</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.lanqiao.cn/problems/?first_category_id=1&sort=students_count" title="https:&#x2F;&#x2F;www.lanqiao.cn&#x2F;problems&#x2F;?first_category_id&#x3D;1&amp;sort&#x3D;students_count" rel="noopener" target="_blank">蓝桥杯题库</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.runoob.com/" title="https:&#x2F;&#x2F;www.runoob.com&#x2F;" rel="noopener" target="_blank">菜鸟教程</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://axutongxue.gitee.io/" title="https:&#x2F;&#x2F;axutongxue.gitee.io&#x2F;" rel="noopener" target="_blank">阿虚同学的储物间</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://libgen.ee/" title="https:&#x2F;&#x2F;libgen.ee&#x2F;" rel="noopener" target="_blank">Libgee</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2023-03 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Xiunneg</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">57k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">3:28</span>
+</div>
+
+<!-- <br /> -->
+<!-- 网站运行时间的设置 -->
+<span id="timeDate">载入天数...</span>
+<!-- <span id="times">载入时分秒...</span> -->
+<script>
+    var now = new Date();
+    function createtime() {
+        var grt= new Date("03/30/2023 00:00:00");//此处修改你的建站时间或者网站上线时间
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds); 
+        if(String(snum).length ==1 ){snum = "0" + snum;}
+        // var times = document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "+hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+    }
+setInterval("createtime()",250);
+</script>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest-nomobile.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+
+
+  
+  <script>
+    (function(){
+      var canonicalURL, curProtocol;
+      //Get the <link> tag
+      var x=document.getElementsByTagName("link");
+		//Find the last canonical URL
+		if(x.length > 0){
+			for (i=0;i<x.length;i++){
+				if(x[i].rel.toLowerCase() == 'canonical' && x[i].href){
+					canonicalURL=x[i].href;
+				}
+			}
+		}
+    //Get protocol
+	    if (!canonicalURL){
+	    	curProtocol = window.location.protocol.split(':')[0];
+	    }
+	    else{
+	    	curProtocol = canonicalURL.split(':')[0];
+	    }
+      //Get current URL if the canonical URL does not exist
+	    if (!canonicalURL) canonicalURL = window.location.href;
+	    //Assign script content. Replace current URL with the canonical URL
+      !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=canonicalURL,t=document.referrer;if(!e.test(r)){var n=(String(curProtocol).toLowerCase() === 'https')?"https://sp0.baidu.com/9_Q4simg2RQJ8t7jm9iCKT-xh_/s.gif":"//api.share.baidu.com/s.gif";t?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var i=new Image;i.src=n}}(window);})();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false});</script></body>
+</html>

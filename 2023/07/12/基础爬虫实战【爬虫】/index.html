@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/Cutian.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/Cutian.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/Cutian.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="baidu-site-verification" content="codeva-pW1EhZvLGz" />>
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Trebuchet MS:300,300italic,400,400italic,700,700italic|NSimSun:300,300italic,400,400italic,700,700italic|FangSong:300,300italic,400,400italic,700,700italic|Courier New:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-mac-osx.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.helloxiuenng.com.cn","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="基础爬虫实战： 抓取静态网页的信息 实现一个爬虫来爬取一个静态网页的信息。 完整代码请参见本文末尾,或点击此处，或者进入GitHub自取">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基础爬虫实战【爬虫】">
+<meta property="og:url" content="https://www.helloxiuenng.com.cn/2023/07/12/%E5%9F%BA%E7%A1%80%E7%88%AC%E8%99%AB%E5%AE%9E%E6%88%98%E3%80%90%E7%88%AC%E8%99%AB%E3%80%91/index.html">
+<meta property="og:site_name" content="修能的博客">
+<meta property="og:description" content="基础爬虫实战： 抓取静态网页的信息 实现一个爬虫来爬取一个静态网页的信息。 完整代码请参见本文末尾,或点击此处，或者进入GitHub自取">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-07-12T07:36:19.000Z">
+<meta property="article:modified_time" content="2023-07-14T02:28:23.522Z">
+<meta property="article:author" content="修能">
+<meta property="article:tag" content="爬虫实战">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.helloxiuenng.com.cn/2023/07/12/%E5%9F%BA%E7%A1%80%E7%88%AC%E8%99%AB%E5%AE%9E%E6%88%98%E3%80%90%E7%88%AC%E8%99%AB%E3%80%91/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>基础爬虫实战【爬虫】 | 修能的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<style>.darkmode--activated{--body-bg-color:#282828;--content-bg-color:#333;--card-bg-color:#555;--text-color:#ccc;--blockquote-color:#bbb;--link-color:#ccc;--link-hover-color:#eee;--brand-color:#ddd;--brand-hover-color:#ddd;--table-row-odd-bg-color:#282828;--table-row-hover-bg-color:#363636;--menu-item-bg-color:#555;--btn-default-bg:#222;--btn-default-color:#ccc;--btn-default-border-color:#555;--btn-default-hover-bg:#666;--btn-default-hover-color:#ccc;--btn-default-hover-border-color:#666;--highlight-background:#282b2e;--highlight-foreground:#a9b7c6;--highlight-gutter-background:#34393d;--highlight-gutter-foreground:#9ca9b6}.darkmode--activated img{opacity:.75}.darkmode--activated img:hover{opacity:.9}.darkmode--activated code{color:#69dbdc;background:0 0}button.darkmode-toggle{z-index:9999}.darkmode-ignore,img{display:flex!important}.beian img{display:inline-block!important}</style></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">修能的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">や！诸君~おはよう~今日は道に迷てなあ~</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">30</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">15</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">36</span></a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.helloxiuenng.com.cn/2023/07/12/%E5%9F%BA%E7%A1%80%E7%88%AC%E8%99%AB%E5%AE%9E%E6%88%98%E3%80%90%E7%88%AC%E8%99%AB%E3%80%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://img.nickyam.com/file/f8367734b39ee55b0b3fa.jpg">
+      <meta itemprop="name" content="修能">
+      <meta itemprop="description" content="别让别人决定你的生活！">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="修能的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          基础爬虫实战【爬虫】
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-07-12 15:36:19" itemprop="dateCreated datePublished" datetime="2023-07-12T15:36:19+08:00">2023-07-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-07-14 10:28:23" itemprop="dateModified" datetime="2023-07-14T10:28:23+08:00">2023-07-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python3%E7%88%AC%E8%99%AB%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index"><span itemprop="name">Python3爬虫基础</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python3%E7%88%AC%E8%99%AB%E5%9F%BA%E7%A1%80/%E7%88%AC%E8%99%AB%E5%AE%9E%E6%88%98%E6%A1%88%E4%BE%8B/" itemprop="url" rel="index"><span itemprop="name">爬虫实战案例</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.4k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>9 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="基础爬虫实战-抓取静态网页的信息">基础爬虫实战：
+抓取静态网页的信息</h1>
+<p>实现一个爬虫来爬取一个静态网页的信息。</p>
+<p>完整代码请参见本文末尾,或<a
+target="_blank" rel="noopener" href="https://helloxiunneg.com.cn/2023/07/12/%E5%9F%BA%E7%A1%80%E7%88%AC%E8%99%AB%E5%AE%9E%E6%88%98%E3%80%90%E7%88%AC%E8%99%AB%E3%80%91/#Allcode">点击此处</a>，或者进入<a
+target="_blank" rel="noopener" href="https://github.com/Lxiunneg/My_Python_Spider_Study/tree/main/%E5%AE%9E%E6%88%981_%E7%88%AC%E5%8F%96%E7%AE%80%E5%8D%95%E7%9A%84%E7%BD%91%E9%A1%B5">GitHub自取</a></p>
+<span id="more"></span>
+<h2 id="项目概述">项目概述</h2>
+<h3 id="准备工作">准备工作</h3>
+<ul>
+<li>Python3.6及以上,并且环境配置完全。<br />
+</li>
+<li><font color = blue size = 0.1><待完善></font>了解Python多进程的基本原理</li>
+<li>了解PythonHTTP请求库requests的基本用法。</li>
+<li>了解正则表达式的用法和Python中正则表达式re的基本用法。 ### 爬取目标
+需要爬取的<a
+target="_blank" rel="noopener" href="https://ssr1.scrape.center/">链接</a>是：<code>https://ssr1.scrape.center/</code>,这个网站包含了一些电影信息。</li>
+</ul>
+<p><img
+src="https://img.nickyam.com/file/4e96a6a56db12c4d4be10.png" /></p>
+<p>我们点击其中一部电影就可以看到详细的信息。</p>
+<h3 id="要完成的目标">要完成的目标</h3>
+<ul>
+<li>利用requests库爬取这个站点每一页的电影列表，顺着列表在爬取每个电影的详情页。<br />
+</li>
+<li>用正则表达式提取每部电影的名称、封面、类别、上映时间、评分、剧情简介等内容。</li>
+<li>把以上爬取的内容保存为JSON文件。<br />
+</li>
+<li>使用多进程实现爬取的加速。</li>
+</ul>
+<h2 id="开始爬取">开始爬取</h2>
+<h3 id="爬取列表页">爬取列表页</h3>
+<h4 id="第一步-分析页面">第一步： 分析页面</h4>
+<p>要想爬取一个网站我们就要了解要爬取网站的构成。<br />
+使用开发者工具查看页面。</p>
+<p><img
+src="https://img.nickyam.com/file/6d92dae364f61199598cf.png" /></p>
+<p>发现每部电影对应的是一个<code>div</code>节点，而且这些节点的<code>class</code>属性都有<code>el-card</code>这个值。</p>
+<p><img
+src="https://img.nickyam.com/file/e5555cb409975b6102763.png" /></p>
+<p>注意到每个列表有十个<code>div</code>节点，说明一页有十部电影。</p>
+<p>选中第一个电影的名称，可以发现这个名称其实是一个<code>h2</code>节点<font color = blue size = 1>（其实就是这个节点中的二级标题）</font>，在h2节点的外面包含一个<code>a</code>节点，a节点有一个<code>href</code>属性,这是一个超链接，其中的<code>href</code>的值为：<code>/detail/1</code>，这是一个相对于网站的根URL的地址，可以还原成：<code>https://ssr1.scrape.center/detail/1</code>,这就是详情页的URL。所以得出结论：<strong>只要获取到了<code>href</code>属性的值，我们就可以获取到电影的详情页URL。</strong>，之后我们就可以在详情页中进行爬取信息了。</p>
+<h4 id="第二步-分析翻页的操作逻辑">第二步： 分析翻页的操作逻辑</h4>
+<p>进行翻页时，我们可以观察到网站的URL从<code>https://ssr1.scrape.center/page/1</code>转换成了<code>https://ssr1.scrape.center/page/2</code>,这就是翻页的逻辑，我们也顺利的得到了各页的URL。</p>
+<h4 id="代码实现">代码实现</h4>
+<p>完成对列表页的爬取的实现，步骤是： -
+遍历所有页码，构造出10页的索引页URL。 -
+从每个索引页中分析提取出每个电影的详情页URL。</p>
+<p><strong>Code：</strong> <figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">###########part_1###########</span></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> logging</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">from</span> urllib.parse <span class="keyword">import</span> urljoin</span><br><span class="line"></span><br><span class="line"><span class="comment">###########part_2###########</span></span><br><span class="line">logging.basicConfig(level=logging.INFO,</span><br><span class="line">                    <span class="built_in">format</span>=<span class="string">&#x27;%(asctime)s - %(levelname) : %(message)s&#x27;</span>)</span><br><span class="line"></span><br><span class="line">BASE_URL = <span class="string">&#x27;https://ssr1.scrape.center&#x27;</span></span><br><span class="line">TOTAL_PAGE = <span class="number">10</span></span><br></pre></td></tr></table></figure></p>
+<p>在<font color = green>part_1</font>中，我们引入了<code>requests库</code>来进行网页的抓取、<code>logging库</code>来输出信息、<code>re库</code>来实现正则表达式对页面信息的匹配和<code>urllib.parse.urljoin()方法</code>来做对URL的拼接。</p>
+<p>在<font color = green>part_2</font>中，首先是使用<code>logging.basicConfig()方法</code>定义日志输出级别和输出格式，<code>BASE_PAGE</code>为当前爬取站点的根URL，<code>TOTAL_PAGE</code>设定了需要爬取页面的总数.</p>
+<p><strong>Code:</strong> <figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">###########part_3###########</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">scrape_page</span>(<span class="params">url</span>):</span><br><span class="line">    logging.info(<span class="string">&#x27;scraping %s...&#x27;</span>,url)</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        response = requests.get(url)</span><br><span class="line">        <span class="keyword">if</span> response.status_code == <span class="number">200</span>:</span><br><span class="line">            <span class="keyword">return</span> response.text</span><br><span class="line">        logging.error(<span class="string">&#x27;get invalid status code %s while scraping %s&#x27;</span></span><br><span class="line">                      ,response.status_code,url)</span><br><span class="line">    <span class="keyword">except</span> requests.RequestException:</span><br><span class="line">        logging.error(<span class="string">&#x27;error occured while scraping %s&#x27;</span>,url,exc_info=<span class="literal">True</span>)   </span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">scrape_index</span>(<span class="params">page</span>):</span><br><span class="line">    index_url = <span class="string">f&#x27;<span class="subst">&#123;BASE_URL&#125;</span>/page/<span class="subst">&#123;page&#125;</span>&#x27;</span></span><br><span class="line">    <span class="keyword">return</span> scrape_page(index_url)  </span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">parse_index</span>(<span class="params">html</span>):</span><br><span class="line">    pattern = re.<span class="built_in">compile</span>(<span class="string">&#x27;&lt;a.*?href=&quot;(.*?)&quot;.*?class=&quot;name&quot;&gt;&#x27;</span>)</span><br><span class="line">    items = re.findall(pattern,html)</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> items:</span><br><span class="line">        <span class="keyword">return</span> []</span><br><span class="line">    <span class="keyword">for</span> item <span class="keyword">in</span> items:</span><br><span class="line">        detail_url = urljoin(BASE_URL,item)</span><br><span class="line">        logging.info(<span class="string">&#x27;get detail url %s&#x27;</span>,detail_url)</span><br><span class="line">        <span class="keyword">yield</span> detail_url</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">main</span>():</span><br><span class="line">    <span class="keyword">for</span> page <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,TOTAL_PAGE+<span class="number">1</span>):</span><br><span class="line">        index_html = scrape_index(page)</span><br><span class="line">        detail_urls = parse_index(index_html)</span><br><span class="line">        logging.info(<span class="string">&#x27;detail urls %s&#x27;</span>,<span class="built_in">list</span>(detail_urls))</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure></p>
+<p>这是一个较为通用的爬取页面方法,<code>sreape_page</code>,接受一个<code>url</code>参数，返回页面的HTML代码。如果状态码是不是<code>200</code>，如果是直接返回页面的HTML代码，如果不是,则输出对应的错误日志信息。</p>
+<p><code>scrape_index(page)</code>方法就是列表页的爬取方法，按照翻页的逻辑，实现URL的拼接。</p>
+<p><code>parse_index(html)</code>方法接受一个参数html，级列表页的HTML的代码。<br />
+<code>pattern参数</code>指明了正则表达式的匹配模式，即提取<code>a节点</code>中<code>参数href</code>的值，然后通过<code>yield</code>逐个返回详情页的URL。</p>
+<p>最后将上述的函数组合就可以爬取到详情页了。</p>
+<p><strong>Result:</strong> <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">2023-07-12 21:18:00,427 - INFO : scraping https://ssr1.scrape.center/page/1...</span><br><span class="line">2023-07-12 21:18:00,593 - INFO : get detail url https://ssr1.scrape.center/detail/1</span><br><span class="line">2023-07-12 21:18:00,593 - INFO : get detail url https://ssr1.scrape.center/detail/2</span><br><span class="line">2023-07-12 21:18:00,593 - INFO : get detail url https://ssr1.scrape.center/detail/3</span><br><span class="line">2023-07-12 21:18:00,593 - INFO : get detail url https://ssr1.scrape.center/detail/4</span><br><span class="line">2023-07-12 21:18:00,593 - INFO : get detail url https://ssr1.scrape.center/detail/5</span><br><span class="line">2023-07-12 21:18:00,593 - INFO : get detail url https://ssr1.scrape.center/detail/6</span><br><span class="line">2023-07-12 21:18:00,593 - INFO : get detail url https://ssr1.scrape.center/detail/7</span><br><span class="line">2023-07-12 21:18:00,593 - INFO : get detail url https://ssr1.scrape.center/detail/8</span><br><span class="line">2023-07-12 21:18:00,593 - INFO : get detail url https://ssr1.scrape.center/detail/9</span><br><span class="line">2023-07-12 21:18:00,593 - INFO : get detail url https://ssr1.scrape.center/detail/10</span><br><span class="line">2023-07-12 21:18:00,593 - INFO : detail urls [&#x27;https://ssr1.scrape.center/detail/1&#x27;, &#x27;https://ssr1.scrape.center/detail/2&#x27;, &#x27;https://ssr1.scrape.center/detail/3&#x27;, &#x27;https://ssr1.scrape.center/detail/4&#x27;, &#x27;https://ssr1.scrape.center/detail/5&#x27;, &#x27;https://ssr1.scrape.center/detail/6&#x27;, &#x27;https://ssr1.scrape.center/detail/7&#x27;, &#x27;https://ssr1.scrape.center/detail/8&#x27;, &#x27;https://ssr1.scrape.center/detail/9&#x27;, &#x27;https://ssr1.scrape.center/detail/10&#x27;]</span><br><span class="line">2023-07-12 21:18:00,593 - INFO : scraping https://ssr1.scrape.center/page/2...</span><br><span class="line"></span><br><span class="line">......</span><br></pre></td></tr></table></figure></p>
+<p>详情页爬取成功了。</p>
+<h3 id="爬取详情页">爬取详情页</h3>
+<h4 id="第一步-分析页面-1">第一步： 分析页面</h4>
+<p>通过开发者工具分析发现以下特征：<br />
+- 封面：
+<code>img节点</code>,<code>class</code>属性为<code>cover</code>,<code>src属性</code>为封面图片的URL。
+- 名称： <code>h2节点</code>，其内容是电影名称。<br />
+- 类别：
+<code>span节点</code>,其内容是电影的名称。其外层是<code>button节点</code>，再外层是<code>div节点</code>，其<code>class属性</code>是<code>categories</code>。<br />
+- 上映时间：
+<code>span节点</code>，其内容是上映的时间+“上映”，提取时注意去掉“上映”两字。外层是<code>div节点</code>,其<code>class属性</code>是<code>m-v-sm info</code>,正则匹配时匹配<code>info</code>。
+- 评分：
+<code>p节点</code>,其内容是评分，<code>class属性</code>为<code>score</code>。
+- 剧情简介：
+<code>p节点</code>,其内容是剧情简介。其外层是<code>h3节点</code>,其内容是“剧情简介”。再外层是属性为<code>drama</code>的<code>div节点</code>。</p>
+<h4 id="代码实现-1">代码实现</h4>
+<p><strong>Code:</strong> <figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">###########part_4###########</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">scrape_detail</span>(<span class="params">url</span>):</span><br><span class="line">    <span class="keyword">return</span> scrape_page(url)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">parse_detail</span>(<span class="params">html</span>):</span><br><span class="line">    cover_pattern = re.<span class="built_in">compile</span>(<span class="string">&#x27;class=&quot;item.*?&lt;img.*?src=&quot;(.*?)&quot;.*?class=&quot;cover&quot;&gt;&#x27;</span>,re.S)</span><br><span class="line">    name_pattern = re.<span class="built_in">compile</span>(<span class="string">&#x27;&lt;h2.*?&gt;(.*?)&lt;/h2&gt;&#x27;</span>)</span><br><span class="line">    categories_pattern = re.<span class="built_in">compile</span>(<span class="string">&#x27;&lt;button.*?category.*?&lt;span&gt;(.*?)&lt;/span&gt;.*?&lt;/button&gt;&#x27;</span>,re.S)</span><br><span class="line">    published_at_pattern = re.<span class="built_in">compile</span>(<span class="string">&#x27;(\d&#123;4&#125;-\d&#123;2&#125;-\d&#123;2&#125;)\s?上映&#x27;</span>)</span><br><span class="line">    drama_at_pattern = re.<span class="built_in">compile</span>(<span class="string">&#x27;&lt;div.*?drama.*?&gt;.*?&lt;p.*?&gt;(.*?)&lt;/p&gt;&#x27;</span>,re.S)</span><br><span class="line">    score_pattern = re.<span class="built_in">compile</span>(<span class="string">&#x27;&lt;p.*?score.*?&gt;(.*?)&lt;/p&gt;&#x27;</span>,re.S)</span><br><span class="line"></span><br><span class="line">    cover = re.search(cover_pattern,html).group(<span class="number">1</span>).strip() <span class="keyword">if</span> re.search(cover_pattern,html) <span class="keyword">else</span> <span class="literal">None</span></span><br><span class="line">    name = re.search(name_pattern,html).group(<span class="number">1</span>).strip() <span class="keyword">if</span> re.search(name_pattern,html) <span class="keyword">else</span> <span class="literal">None</span></span><br><span class="line">    categories = re.findall(categories_pattern,html) <span class="keyword">if</span> re.findall(categories_pattern,html) <span class="keyword">else</span> <span class="literal">None</span></span><br><span class="line">    published_at = re.search(published_at_pattern,html).group(<span class="number">1</span>) <span class="keyword">if</span> re.search(published_at_pattern,html) <span class="keyword">else</span> <span class="literal">None</span></span><br><span class="line">    drama_at = re.search(drama_at_pattern,html).group(<span class="number">1</span>).strip() <span class="keyword">if</span> re.search(drama_at_pattern,html) <span class="keyword">else</span> <span class="literal">None</span></span><br><span class="line">    score = <span class="built_in">float</span>(re.search(score_pattern,html).group(<span class="number">1</span>).strip())<span class="keyword">if</span> re.search(score_pattern,html) <span class="keyword">else</span> <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        <span class="string">&#x27;cover&#x27;</span>: cover,</span><br><span class="line">        <span class="string">&#x27;name&#x27;</span>: name,</span><br><span class="line">        <span class="string">&#x27;categories&#x27;</span>: categories,</span><br><span class="line">        <span class="string">&#x27;published_at&#x27;</span>: published_at,</span><br><span class="line">        <span class="string">&#x27;drmar_at&#x27;</span>: drama_at,</span><br><span class="line">        <span class="string">&#x27;score&#x27;</span>: score</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>定义<code>函数scrape_detail()</code>,该方法返回详情页的html代码。单独实现<code>函数scrape_detail()</code>,可以增强程序的灵活性和易读性。</p>
+<p>定义<code>函数parse_detail(html)</code>，对html代码进行匹配，最后返回一个字典对象。</p>
+<h4 id="将数据保存">将数据保存</h4>
+<p>这里采用JSON格式来保存数据，编写以下保存函数以及初始设置。</p>
+<p><strong>Code:</strong> <figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">from</span> os <span class="keyword">import</span> makedirs</span><br><span class="line"><span class="keyword">from</span> os.path <span class="keyword">import</span> exists</span><br><span class="line"></span><br><span class="line">RESULTS_DIR = <span class="string">&#x27;results&#x27;</span></span><br><span class="line">exists(RESULTS_DIR) <span class="keyword">or</span> makedirs(RESULTS_DIR)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">save_data</span>(<span class="params">data</span>):</span><br><span class="line">    name = data.get(<span class="string">&#x27;name&#x27;</span>)</span><br><span class="line">    data_path = <span class="string">f&#x27;<span class="subst">&#123;RESULTS_DIR&#125;</span>/<span class="subst">&#123;name&#125;</span>.json&#x27;</span></span><br><span class="line">    json.dump(data,<span class="built_in">open</span>(data_path,<span class="string">&#x27;w&#x27;</span>,encoding=<span class="string">&#x27;utf-8&#x27;</span>),ensure_ascii=<span class="literal">False</span>,indent=<span class="number">2</span>)</span><br></pre></td></tr></table></figure></p>
+<h4 id="运行爬虫">运行爬虫</h4>
+<p>改写<code>main()</code>： <strong>Code:</strong> <figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">main</span>():</span><br><span class="line">    <span class="keyword">for</span> page <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,TOTAL_PAGE+<span class="number">1</span>):</span><br><span class="line">        index_html = scrape_index(page)</span><br><span class="line">        detail_urls = parse_index(index_html)</span><br><span class="line">        <span class="keyword">for</span> detail_url <span class="keyword">in</span> detail_urls:</span><br><span class="line">            detail_html = scrape_detail(detail_url)</span><br><span class="line">            data = parse_detail(detail_html)</span><br><span class="line">            logging.info(<span class="string">&#x27;get detail data %s&#x27;</span>,data)</span><br><span class="line">            logging.info(<span class="string">&#x27;saving data to json file...&#x27;</span>)</span><br><span class="line">            save_data(data)</span><br><span class="line">            logging.info(<span class="string">&#x27;data saved successfully!^-^&#x27;</span>)</span><br></pre></td></tr></table></figure></p>
+<p>运行结果： <img
+src="https://img.nickyam.com/file/f35eb631487ff39e9e4da.png" /> <img
+src="https://img.nickyam.com/file/140053265bfaaac8b4f83.png" /></p>
+<h2 id="多线程加速">多线程加速</h2>
+<p><font color = blue size = 1><待完善></font>将十页的爬取同时进行，为每一页开一个进程来爬取。而且因为这10个列表页面正好可以提前构造成一个列表，所以选用多进程里面的进程池Pool来实现这个过程。</p>
+<p>改写<code>main()</code>：</p>
+<p><strong>Code:</strong> <figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">main</span>(<span class="params">page</span>):</span><br><span class="line">    index_html = scrape_index(page)</span><br><span class="line">    detail_urls = parse_index(index_html)</span><br><span class="line">    <span class="keyword">for</span> detail_url <span class="keyword">in</span> detail_urls:</span><br><span class="line">        detail_html = scrape_detail(detail_url)</span><br><span class="line">        data = parse_detail(detail_html)</span><br><span class="line">        logging.info(<span class="string">&#x27;get detail data %s&#x27;</span>, data)</span><br><span class="line">        logging.info(<span class="string">&#x27;saving data to json file...&#x27;</span>)</span><br><span class="line">        save_data(data)</span><br><span class="line">        logging.info(<span class="string">&#x27;data saved successfully!^-^&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 该代码还需学习</span></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    pool = multiprocessing.Pool()</span><br><span class="line">    pages = <span class="built_in">range</span>(<span class="number">1</span>, TOTAL_PAGE + <span class="number">1</span>)</span><br><span class="line">    pool.<span class="built_in">map</span>(main, pages)</span><br><span class="line">    pool.close()</span><br><span class="line">    pool.join()</span><br></pre></td></tr></table></figure></p>
+<p><a id="Allcode"></a></p>
+<h2 id="完整代码">完整代码</h2>
+<p><strong>Code:</strong> <figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">###########part_1###########</span></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> logging</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">from</span> os <span class="keyword">import</span> makedirs</span><br><span class="line"><span class="keyword">from</span> os.path <span class="keyword">import</span> exists</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> urllib.parse <span class="keyword">import</span> urljoin</span><br><span class="line"><span class="keyword">import</span> multiprocessing</span><br><span class="line"></span><br><span class="line"><span class="comment">###########part_2###########</span></span><br><span class="line">logging.basicConfig(level=logging.INFO,</span><br><span class="line">                    <span class="built_in">format</span>=<span class="string">&#x27;%(asctime)s - %(levelname)s : %(message)s&#x27;</span>)</span><br><span class="line"></span><br><span class="line">BASE_URL = <span class="string">&#x27;https://ssr1.scrape.center&#x27;</span></span><br><span class="line">TOTAL_PAGE = <span class="number">10</span></span><br><span class="line"></span><br><span class="line">RESULTS_DIR = <span class="string">&#x27;results&#x27;</span></span><br><span class="line">exists(RESULTS_DIR) <span class="keyword">or</span> makedirs(RESULTS_DIR)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">###########part_3###########</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">scrape_page</span>(<span class="params">url</span>):</span><br><span class="line">    logging.info(<span class="string">&#x27;scraping %s...&#x27;</span>, url)</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        response = requests.get(url)</span><br><span class="line">        <span class="keyword">if</span> response.status_code == <span class="number">200</span>:</span><br><span class="line">            <span class="keyword">return</span> response.text</span><br><span class="line">        logging.error(<span class="string">&#x27;get invalid status code %s while scraping %s&#x27;</span></span><br><span class="line">                      , response.status_code, url)</span><br><span class="line">    <span class="keyword">except</span> requests.RequestException:</span><br><span class="line">        logging.error(<span class="string">&#x27;error occured while scraping %s&#x27;</span>, url, exc_info=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">scrape_index</span>(<span class="params">page</span>):</span><br><span class="line">    index_url = <span class="string">f&#x27;<span class="subst">&#123;BASE_URL&#125;</span>/page/<span class="subst">&#123;page&#125;</span>&#x27;</span></span><br><span class="line">    <span class="keyword">return</span> scrape_page(index_url)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">parse_index</span>(<span class="params">html</span>):</span><br><span class="line">    pattern = re.<span class="built_in">compile</span>(<span class="string">&#x27;&lt;a.*?href=&quot;(.*?)&quot;.*?class=&quot;name&quot;&gt;&#x27;</span>)</span><br><span class="line">    items = re.findall(pattern, html)</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> items:</span><br><span class="line">        <span class="keyword">return</span> []</span><br><span class="line">    <span class="keyword">for</span> item <span class="keyword">in</span> items:</span><br><span class="line">        detail_url = urljoin(BASE_URL, item)</span><br><span class="line">        logging.info(<span class="string">&#x27;get detail url %s&#x27;</span>, detail_url)</span><br><span class="line">        <span class="keyword">yield</span> detail_url</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">###########part_4###########</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">scrape_detail</span>(<span class="params">url</span>):</span><br><span class="line">    <span class="keyword">return</span> scrape_page(url)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">parse_detail</span>(<span class="params">html</span>):</span><br><span class="line">    cover_pattern = re.<span class="built_in">compile</span>(<span class="string">&#x27;class=&quot;item.*?&lt;img.*?src=&quot;(.*?)&quot;.*?class=&quot;cover&quot;&gt;&#x27;</span>, re.S)</span><br><span class="line">    name_pattern = re.<span class="built_in">compile</span>(<span class="string">&#x27;&lt;h2.*?&gt;(.*?)&lt;/h2&gt;&#x27;</span>)</span><br><span class="line">    categories_pattern = re.<span class="built_in">compile</span>(<span class="string">&#x27;&lt;button.*?category.*?&lt;span&gt;(.*?)&lt;/span&gt;.*?&lt;/button&gt;&#x27;</span>, re.S)</span><br><span class="line">    published_at_pattern = re.<span class="built_in">compile</span>(<span class="string">&#x27;(\d&#123;4&#125;-\d&#123;2&#125;-\d&#123;2&#125;)\s?上映&#x27;</span>)</span><br><span class="line">    drama_at_pattern = re.<span class="built_in">compile</span>(<span class="string">&#x27;&lt;div.*?drama.*?&gt;.*?&lt;p.*?&gt;(.*?)&lt;/p&gt;&#x27;</span>, re.S)</span><br><span class="line">    score_pattern = re.<span class="built_in">compile</span>(<span class="string">&#x27;&lt;p.*?score.*?&gt;(.*?)&lt;/p&gt;&#x27;</span>, re.S)</span><br><span class="line"></span><br><span class="line">    cover = re.search(cover_pattern, html).group(<span class="number">1</span>).strip() <span class="keyword">if</span> re.search(cover_pattern, html) <span class="keyword">else</span> <span class="literal">None</span></span><br><span class="line">    name = re.search(name_pattern, html).group(<span class="number">1</span>).strip() <span class="keyword">if</span> re.search(name_pattern, html) <span class="keyword">else</span> <span class="literal">None</span></span><br><span class="line">    categories = re.findall(categories_pattern, html) <span class="keyword">if</span> re.findall(categories_pattern, html) <span class="keyword">else</span> <span class="literal">None</span></span><br><span class="line">    published_at = re.search(published_at_pattern, html).group(<span class="number">1</span>) <span class="keyword">if</span> re.search(published_at_pattern, html) <span class="keyword">else</span> <span class="literal">None</span></span><br><span class="line">    drama_at = re.search(drama_at_pattern, html).group(<span class="number">1</span>).strip() <span class="keyword">if</span> re.search(drama_at_pattern, html) <span class="keyword">else</span> <span class="literal">None</span></span><br><span class="line">    score = <span class="built_in">float</span>(re.search(score_pattern, html).group(<span class="number">1</span>).strip()) <span class="keyword">if</span> re.search(score_pattern, html) <span class="keyword">else</span> <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        <span class="string">&#x27;cover&#x27;</span>: cover,</span><br><span class="line">        <span class="string">&#x27;name&#x27;</span>: name,</span><br><span class="line">        <span class="string">&#x27;categories&#x27;</span>: categories,</span><br><span class="line">        <span class="string">&#x27;published_at&#x27;</span>: published_at,</span><br><span class="line">        <span class="string">&#x27;drmar_at&#x27;</span>: drama_at,</span><br><span class="line">        <span class="string">&#x27;score&#x27;</span>: score</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">save_data</span>(<span class="params">data</span>):</span><br><span class="line">    name = data.get(<span class="string">&#x27;name&#x27;</span>)</span><br><span class="line">    data_path = <span class="string">f&#x27;<span class="subst">&#123;RESULTS_DIR&#125;</span>/<span class="subst">&#123;name&#125;</span>.json&#x27;</span></span><br><span class="line">    json.dump(data, <span class="built_in">open</span>(data_path, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>), ensure_ascii=<span class="literal">False</span>, indent=<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">main</span>(<span class="params">page</span>):</span><br><span class="line">    index_html = scrape_index(page)</span><br><span class="line">    detail_urls = parse_index(index_html)</span><br><span class="line">    <span class="keyword">for</span> detail_url <span class="keyword">in</span> detail_urls:</span><br><span class="line">        detail_html = scrape_detail(detail_url)</span><br><span class="line">        data = parse_detail(detail_html)</span><br><span class="line">        logging.info(<span class="string">&#x27;get detail data %s&#x27;</span>, data)</span><br><span class="line">        logging.info(<span class="string">&#x27;saving data to json file...&#x27;</span>)</span><br><span class="line">        save_data(data)</span><br><span class="line">        logging.info(<span class="string">&#x27;data saved successfully!^-^&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 该代码还需学习</span></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    pool = multiprocessing.Pool()</span><br><span class="line">    pages = <span class="built_in">range</span>(<span class="number">1</span>, TOTAL_PAGE + <span class="number">1</span>)</span><br><span class="line">    pool.<span class="built_in">map</span>(main, pages)</span><br><span class="line">    pool.close()</span><br><span class="line">    pool.join()</span><br><span class="line"></span><br></pre></td></tr></table></figure></p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>修能
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://www.helloxiuenng.com.cn/2023/07/12/%E5%9F%BA%E7%A1%80%E7%88%AC%E8%99%AB%E5%AE%9E%E6%88%98%E3%80%90%E7%88%AC%E8%99%AB%E3%80%91/" title="基础爬虫实战【爬虫】">https://www.helloxiuenng.com.cn/2023/07/12/基础爬虫实战【爬虫】/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <div>
+        
+          <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+
+        
+      </div>
+
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/%E7%88%AC%E8%99%AB%E5%AE%9E%E6%88%98/" rel="tag"><i class="fa fa-tag"></i> 爬虫实战</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/07/14/XPath%E7%9A%84%E4%BD%BF%E7%94%A8%E3%80%90%E7%88%AC%E8%99%AB%E3%80%91/" rel="prev" title="XPath的使用【爬虫】">
+      <i class="fa fa-chevron-left"></i> XPath的使用【爬虫】
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/07/12/httpx%E7%9A%84%E4%BD%BF%E7%94%A8%E3%80%90%E7%88%AC%E8%99%AB%E3%80%91/" rel="next" title="httpx的使用【爬虫】">
+      httpx的使用【爬虫】 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E7%88%AC%E8%99%AB%E5%AE%9E%E6%88%98-%E6%8A%93%E5%8F%96%E9%9D%99%E6%80%81%E7%BD%91%E9%A1%B5%E7%9A%84%E4%BF%A1%E6%81%AF"><span class="nav-number">1.</span> <span class="nav-text">基础爬虫实战：
+抓取静态网页的信息</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E6%A6%82%E8%BF%B0"><span class="nav-number">1.1.</span> <span class="nav-text">项目概述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="nav-number">1.1.1.</span> <span class="nav-text">准备工作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A6%81%E5%AE%8C%E6%88%90%E7%9A%84%E7%9B%AE%E6%A0%87"><span class="nav-number">1.1.2.</span> <span class="nav-text">要完成的目标</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%80%E5%A7%8B%E7%88%AC%E5%8F%96"><span class="nav-number">1.2.</span> <span class="nav-text">开始爬取</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%88%AC%E5%8F%96%E5%88%97%E8%A1%A8%E9%A1%B5"><span class="nav-number">1.2.1.</span> <span class="nav-text">爬取列表页</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5-%E5%88%86%E6%9E%90%E9%A1%B5%E9%9D%A2"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">第一步： 分析页面</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E6%AD%A5-%E5%88%86%E6%9E%90%E7%BF%BB%E9%A1%B5%E7%9A%84%E6%93%8D%E4%BD%9C%E9%80%BB%E8%BE%91"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">第二步： 分析翻页的操作逻辑</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.2.1.3.</span> <span class="nav-text">代码实现</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%88%AC%E5%8F%96%E8%AF%A6%E6%83%85%E9%A1%B5"><span class="nav-number">1.2.2.</span> <span class="nav-text">爬取详情页</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5-%E5%88%86%E6%9E%90%E9%A1%B5%E9%9D%A2-1"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">第一步： 分析页面</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0-1"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">代码实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B0%86%E6%95%B0%E6%8D%AE%E4%BF%9D%E5%AD%98"><span class="nav-number">1.2.2.3.</span> <span class="nav-text">将数据保存</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%90%E8%A1%8C%E7%88%AC%E8%99%AB"><span class="nav-number">1.2.2.4.</span> <span class="nav-text">运行爬虫</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%8A%A0%E9%80%9F"><span class="nav-number">1.3.</span> <span class="nav-text">多线程加速</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%8C%E6%95%B4%E4%BB%A3%E7%A0%81"><span class="nav-number">1.4.</span> <span class="nav-text">完整代码</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="修能"
+      src="https://img.nickyam.com/file/f8367734b39ee55b0b3fa.jpg">
+  <p class="site-author-name" itemprop="name">修能</p>
+  <div class="site-description" itemprop="description">别让别人决定你的生活！</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">36</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">30</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Lxiunneg" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Lxiunneg" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="link fa-fw"></i>
+      参考网站
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.luogu.com.cn/" title="https:&#x2F;&#x2F;www.luogu.com.cn" rel="noopener" target="_blank">洛谷</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.lanqiao.cn/problems/?first_category_id=1&sort=students_count" title="https:&#x2F;&#x2F;www.lanqiao.cn&#x2F;problems&#x2F;?first_category_id&#x3D;1&amp;sort&#x3D;students_count" rel="noopener" target="_blank">蓝桥杯题库</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.runoob.com/" title="https:&#x2F;&#x2F;www.runoob.com&#x2F;" rel="noopener" target="_blank">菜鸟教程</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://axutongxue.gitee.io/" title="https:&#x2F;&#x2F;axutongxue.gitee.io&#x2F;" rel="noopener" target="_blank">阿虚同学的储物间</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://libgen.ee/" title="https:&#x2F;&#x2F;libgen.ee&#x2F;" rel="noopener" target="_blank">Libgee</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2023-03 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Xiunneg</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">57k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">3:28</span>
+</div>
+
+<!-- <br /> -->
+<!-- 网站运行时间的设置 -->
+<span id="timeDate">载入天数...</span>
+<!-- <span id="times">载入时分秒...</span> -->
+<script>
+    var now = new Date();
+    function createtime() {
+        var grt= new Date("03/30/2023 00:00:00");//此处修改你的建站时间或者网站上线时间
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds); 
+        if(String(snum).length ==1 ){snum = "0" + snum;}
+        // var times = document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "+hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+    }
+setInterval("createtime()",250);
+</script>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest-nomobile.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+
+
+  
+  <script>
+    (function(){
+      var canonicalURL, curProtocol;
+      //Get the <link> tag
+      var x=document.getElementsByTagName("link");
+		//Find the last canonical URL
+		if(x.length > 0){
+			for (i=0;i<x.length;i++){
+				if(x[i].rel.toLowerCase() == 'canonical' && x[i].href){
+					canonicalURL=x[i].href;
+				}
+			}
+		}
+    //Get protocol
+	    if (!canonicalURL){
+	    	curProtocol = window.location.protocol.split(':')[0];
+	    }
+	    else{
+	    	curProtocol = canonicalURL.split(':')[0];
+	    }
+      //Get current URL if the canonical URL does not exist
+	    if (!canonicalURL) canonicalURL = window.location.href;
+	    //Assign script content. Replace current URL with the canonical URL
+      !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=canonicalURL,t=document.referrer;if(!e.test(r)){var n=(String(curProtocol).toLowerCase() === 'https')?"https://sp0.baidu.com/9_Q4simg2RQJ8t7jm9iCKT-xh_/s.gif":"//api.share.baidu.com/s.gif";t?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var i=new Image;i.src=n}}(window);})();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+<script>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
+
+
+
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false});</script></body>
+</html>
